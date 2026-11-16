@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>askthebirds — вайрфрейм главной</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.1.5"></script>
+  <style type="text/tailwindcss">
+    @theme {
+      --color-bar: #6b625c;      /* тёмная плашка и подвал */
+      --color-ph: #e7e5e2;       /* заглушка под фото */
+      --color-ph-text: #9a948f;
+      --font-logo: Georgia, "Times New Roman", serif;
+    }
+    .ph {
+      @apply bg-ph text-ph-text flex items-center justify-center text-center text-xs uppercase tracking-widest;
+    }
+    .nav-link { @apply text-[11px] uppercase tracking-wider hover:opacity-60 transition-opacity; }
+    .btn { @apply inline-block border border-neutral-900 px-8 py-2.5 text-[11px] uppercase tracking-wider hover:bg-neutral-900 hover:text-white transition-colors; }
+  </style>
+</head>
+<body class="bg-white text-neutral-900 antialiased">
+
+  <!-- 1. Плашка с новостями -->
+  <div class="bg-bar text-white text-center text-[11px] uppercase tracking-wider py-2">
+    <a href="#" class="underline underline-offset-2">Плашка: новость или акция</a>
+  </div>
+
+  <!-- 2. Шапка -->
+  <header id="header" class="sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-transparent transition-colors">
+    <div class="relative flex items-center justify-between px-4 md:px-6 h-14">
+      <!-- Слева: категории -->
+      <nav class="hidden lg:flex items-center gap-5">
+        <div class="group relative">
+          <a href="#" class="nav-link">Магазин ▾</a>
+          <div class="invisible opacity-0 group-hover:visible group-hover:opacity-100 transition absolute left-0 top-full pt-4">
+            <div class="bg-white border border-neutral-200 p-5 w-56 flex flex-col gap-3">
+              <a href="#" class="nav-link">Смотреть все</a>
+              <a href="#" class="nav-link">Клетки</a>
+              <a href="#" class="nav-link">Жёрдочки</a>
+              <a href="#" class="nav-link">Кормушки и поилки</a>
+              <a href="#" class="nav-link">Игрушки</a>
+            </div>
+          </div>
+        </div>
+        <a href="#" class="nav-link">Клетки</a>
+        <a href="#" class="nav-link">Жёрдочки</a>
+        <a href="#" class="nav-link">Кормушки и поилки</a>
+        <a href="#" class="nav-link">Игрушки</a>
+      </nav>
+      <button class="lg:hidden nav-link">Меню</button>
+
+      <!-- Центр: логотип (появляется при прокрутке, как у них) -->
+      <a href="#" id="logo" class="absolute left-1/2 -translate-x-1/2 font-logo text-xl md:text-2xl tracking-tight opacity-0 transition-opacity duration-500">askthebirds</a>
+
+      <!-- Справа: текстом, без иконок -->
+      <nav class="flex items-center gap-4 md:gap-5">
+        <a href="#" class="nav-link hidden md:inline">Подход</a>
+        <a href="#" class="nav-link hidden md:inline">Поиск</a>
+        <a href="#" class="nav-link hidden md:inline">Аккаунт</a>
+        <a href="#" class="nav-link">Корзина (0)</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- 3. Первый экран: большое фото + кнопка -->
+    <section class="relative -mt-14">
+      <div class="ph h-[92vh] min-h-[520px]">Фото на весь экран<br>(товары + природа)</div>
+      <div class="absolute bottom-10 left-1/2 -translate-x-1/2">
+        <a href="#" class="btn bg-white/80">Смотреть все</a>
+      </div>
+    </section>
+
+    <!-- 4. Категории -->
+    <section class="px-4 md:px-6 pt-20 md:pt-28 pb-24 reveal">
+      <div class="flex items-center justify-between mb-8">
+        <h2 class="text-sm uppercase tracking-wider">Категории</h2>
+        <a href="#" class="btn">Смотреть все</a>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-4">
+        <a href="#" class="ph aspect-[3/4] md:aspect-[2/3] border border-white hover:brightness-95 transition flex-col gap-2">
+          <span>Фото</span><span class="text-neutral-700 text-sm">Клетки</span>
+        </a>
+        <a href="#" class="ph aspect-[3/4] md:aspect-[2/3] border border-white hover:brightness-95 transition flex-col gap-2">
+          <span>Фото</span><span class="text-neutral-700 text-sm">Жёрдочки</span>
+        </a>
+        <a href="#" class="ph aspect-[3/4] md:aspect-[2/3] border border-white hover:brightness-95 transition flex-col gap-2">
+          <span>Фото</span><span class="text-neutral-700 text-sm">Кормушки и поилки</span>
+        </a>
+        <a href="#" class="ph aspect-[3/4] md:aspect-[2/3] border border-white hover:brightness-95 transition flex-col gap-2">
+          <span>Фото</span><span class="text-neutral-700 text-sm">Игрушки</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- 5. Бренд-блок: видео/фото + логотип + слоган -->
+    <section class="relative reveal">
+      <div class="ph h-[80vh] min-h-[480px] !items-start !justify-start p-6">Видео или фото (попугай, природа)</div>
+      <div class="absolute inset-0 flex flex-col items-center justify-center gap-6 pointer-events-none">
+        <div class="font-logo text-5xl md:text-8xl text-neutral-500/70">askthebirds</div>
+        <div class="text-xs uppercase tracking-widest text-neutral-600">Слоган</div>
+        <a href="#" class="btn pointer-events-auto bg-white/70">Смотреть все</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- 6. Подвал -->
+  <footer class="bg-bar text-white px-4 md:px-6 pt-14 pb-10">
+    <div class="grid grid-cols-2 md:grid-cols-12 gap-8">
+      <div class="md:col-span-2 flex flex-col gap-2.5 text-xs">
+        <div class="uppercase tracking-wider text-[11px] opacity-70 mb-2">Магазин</div>
+        <a href="#">Смотреть все</a><a href="#">Клетки</a><a href="#">Жёрдочки</a><a href="#">Кормушки и поилки</a><a href="#">Игрушки</a>
+      </div>
+      <div class="md:col-span-2 flex flex-col gap-2.5 text-xs">
+        <div class="uppercase tracking-wider text-[11px] opacity-70 mb-2">Заказы и помощь</div>
+        <a href="#">Вопросы и ответы</a><a href="#">Доставка</a><a href="#">Отследить заказ</a><a href="#">Аккаунт</a><a href="#">Возврат</a>
+      </div>
+      <div class="md:col-span-2 flex flex-col gap-2.5 text-xs">
+        <div class="uppercase tracking-wider text-[11px] opacity-70 mb-2">О нас</div>
+        <a href="#">Подход</a><a href="#">Контакты</a><a href="#">Telegram</a>
+      </div>
+      <div class="col-span-2 md:col-span-4 md:col-start-9">
+        <div class="uppercase tracking-wider text-[11px] opacity-70 mb-2">Подписка</div>
+        <div class="text-sm font-medium uppercase mb-6">Подпишитесь на новости</div>
+        <form class="flex border-b border-white/60" onsubmit="return false">
+          <input type="email" placeholder="Email" class="bg-transparent flex-1 py-2 text-sm placeholder:text-white/60 outline-none">
+          <button class="px-2">→</button>
+        </form>
+        <p class="text-[11px] opacity-70 mt-3">Подписываясь, вы соглашаетесь с <a href="#" class="underline">политикой конфиденциальности</a>.</p>
+      </div>
+    </div>
+    <div class="mt-16 flex flex-wrap justify-between gap-4 text-[11px] opacity-70">
+      <span>© askthebirds</span>
+      <span class="flex gap-4"><a href="#">Политика конфиденциальности</a><a href="#">Условия</a></span>
+    </div>
+  </footer>
+
+  <!-- Кнопка чата справа внизу -->
+  <button class="fixed bottom-5 right-5 z-50 w-12 h-12 rounded-full bg-white shadow-lg border border-neutral-200 text-lg" title="Чат">💬</button>
+
+  <script>
+    // Логотип в шапке появляется после первого экрана, шапка получает границу
+    const logo = document.getElementById('logo');
+    const header = document.getElementById('header');
+    const onScroll = () => {
+      const scrolled = window.scrollY > window.innerHeight * 0.5;
+      logo.classList.toggle('opacity-0', !scrolled);
+      header.classList.toggle('border-neutral-200', scrolled);
+    };
+    addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    // Плавное проявление блоков при прокрутке
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.style.opacity = 1; e.target.style.transform = 'none'; io.unobserve(e.target); } });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.reveal').forEach(el => {
+      el.style.opacity = 0; el.style.transform = 'translateY(24px)';
+      el.style.transition = 'opacity .9s ease, transform .9s ease';
+      io.observe(el);
+    });
+  </script>
+</body>
+</html>
