@@ -4,162 +4,397 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>askthebirds — вайрфрейм главной</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Golos Text — бесплатная замена их Founders Grotesk (у того нет кириллицы и он платный).
+       Libre Caslon — временно для логотипа. -->
+  <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500&family=Libre+Caslon+Text:wght@400;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.1.5"></script>
   <style type="text/tailwindcss">
     @theme {
-      --color-bar: #6b625c;      /* тёмная плашка и подвал */
-      --color-ph: #e7e5e2;       /* заглушка под фото */
-      --color-ph-text: #9a948f;
-      --font-logo: Georgia, "Times New Roman", serif;
+      --color-brown: #696159;       /* плашка и подвал, как у них */
+      --color-ph: #e7e5e2;          /* заглушка под фото */
+      --color-ph-dark: #b9b4ae;     /* заглушка под видео (на ней белый текст) */
+      --color-ph-text: #8f8983;
+      --font-sans: "Golos Text", system-ui, sans-serif;
+      --font-logo: "Libre Caslon Text", Georgia, serif;
     }
-    .ph {
-      @apply bg-ph text-ph-text flex items-center justify-center text-center text-xs uppercase tracking-widest;
-    }
-    .nav-link { @apply text-[11px] uppercase tracking-wider hover:opacity-60 transition-opacity; }
-    .btn { @apply inline-block border border-neutral-900 px-8 py-2.5 text-[11px] uppercase tracking-wider hover:bg-neutral-900 hover:text-white transition-colors; }
+    .ph { @apply bg-ph text-ph-text flex items-center justify-center text-center text-[11px] uppercase tracking-[0.04em]; }
+    /* меню: 13px, верхний регистр, разрядка 1% */
+    .nav { @apply text-[13px] leading-[1.2] uppercase tracking-[0.01em] py-2 border-b border-transparent hover:border-current transition-colors; }
+    /* мелкие заголовки: 12px, разрядка 4% */
+    .caps { @apply text-[12px] leading-[1.3] uppercase tracking-[0.04em]; }
+    /* кнопка: прозрачная, рамка 1px, 12px, отступы 8/40, высота 32 */
+    .btn { @apply inline-block border border-black px-10 py-2 text-[12px] uppercase tracking-[0.01em] leading-[1.2] transition-colors duration-150 hover:bg-black hover:text-white; }
+    /* заголовки блоков: 18px на компьютере, 16px на телефоне */
+    .h3 { @apply text-[16px] md:text-[18px] font-medium uppercase leading-[1.1]; }
+    .btn-light { @apply border-white text-white hover:bg-white hover:text-black; }
+    /* шапка: прозрачная поверх фото, белая при наведении/прокрутке/открытом меню */
+    #header.solid { @apply bg-white; }
+    #header .logo { @apply opacity-0 transition-opacity duration-300; }
+    #header.solid .logo { @apply opacity-100; }
+    /* появление страницы из размытия, как у них */
+    body.loading { opacity: 0; filter: blur(10px); }
+    body { transition: opacity .8s ease, filter .8s ease; }
+    .reveal { opacity: 0; filter: blur(10px); transition: opacity .9s ease, filter .9s ease; }
+    .reveal.in { opacity: 1; filter: none; }
+    /* плашка: два сообщения сменяют друг друга снизу вверх */
+    .ticker > * { transition: transform .6s ease, opacity .6s ease; }
+    /* фирменная полоса прокрутки: 10px, белая дорожка, коричневый ползунок, чёрный при наведении */
+    ::-webkit-scrollbar { width: 10px; }
+    ::-webkit-scrollbar-track { background: #fff; }
+    ::-webkit-scrollbar-thumb { background: #696159; border-left: 1px solid #fff; transition: background .15s; }
+    ::-webkit-scrollbar-thumb:hover { background: #000; }
+    /* тонкая стрелка-уголок у пунктов с меню, поворачивается при открытии */
+    .chev { display: inline-block; width: 7px; height: 7px; border-right: 1px solid currentColor; border-bottom: 1px solid currentColor; transform: translateY(-3px) rotate(45deg); margin-left: 6px; transition: transform .2s; }
+    [aria-expanded="true"] > .chev { transform: translateY(0) rotate(-135deg); }
+    /* слои поверх страницы */
+    .overlay { @apply fixed inset-0 bg-black/40 z-40 opacity-0 pointer-events-none transition-opacity duration-300; }
+    .overlay.open { @apply opacity-100 pointer-events-auto; }
+    .drawer { @apply fixed top-0 right-0 bottom-0 w-full max-w-[540px] bg-white z-[60] translate-x-full transition-transform duration-300 flex flex-col; }
+    .drawer.open { @apply translate-x-0; }
   </style>
 </head>
-<body class="bg-white text-neutral-900 antialiased">
+<body class="loading bg-white text-black font-sans antialiased flex flex-col min-h-screen">
 
-  <!-- 1. Плашка с новостями -->
-  <div class="bg-bar text-white text-center text-[11px] uppercase tracking-wider py-2">
-    <a href="#" class="underline underline-offset-2">Плашка: новость или акция</a>
+  <!-- 1. Плашка: 32px, сменяющиеся сообщения -->
+  <div class="bg-brown text-white h-8 overflow-hidden relative">
+    <div class="ticker absolute inset-0">
+      <a href="#" class="absolute inset-0 flex items-center justify-center text-[12px] uppercase tracking-[0.01em] underline underline-offset-2">Сообщение 1: новость</a>
+      <a href="#" class="absolute inset-0 flex items-center justify-center text-[12px] uppercase tracking-[0.01em] underline underline-offset-2 translate-y-full opacity-0">Сообщение 2: −10% на первый заказ за подписку</a>
+    </div>
   </div>
 
-  <!-- 2. Шапка -->
-  <header id="header" class="sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-transparent transition-colors">
-    <div class="relative flex items-center justify-between px-4 md:px-6 h-14">
-      <!-- Слева: категории -->
-      <nav class="hidden lg:flex items-center gap-5">
-        <div class="group relative">
-          <a href="#" class="nav-link">Магазин ▾</a>
-          <div class="invisible opacity-0 group-hover:visible group-hover:opacity-100 transition absolute left-0 top-full pt-4">
-            <div class="bg-white border border-neutral-200 p-5 w-56 flex flex-col gap-3">
-              <a href="#" class="nav-link">Смотреть все</a>
-              <a href="#" class="nav-link">Клетки</a>
-              <a href="#" class="nav-link">Жёрдочки</a>
-              <a href="#" class="nav-link">Кормушки и поилки</a>
-              <a href="#" class="nav-link">Игрушки</a>
-            </div>
-          </div>
+  <!-- 2. Шапка: 56px, sticky, прозрачная поверх первого экрана -->
+  <header id="header" class="group sticky top-0 z-50 py-3 px-3 lg:px-6 flex items-center gap-6 transition-colors duration-300">
+    <!-- Слева -->
+    <nav class="hidden lg:flex items-center gap-6 flex-1 min-w-0 [&>button]:inline-flex [&>button]:items-center [&>button]:text-left">
+      <button class="nav" data-menu="shop" aria-expanded="false">Магазин<span class="chev"></span></button>
+      <button class="nav" data-menu="cages" aria-expanded="false">Клетки<span class="chev"></span></button>
+      <button class="nav" data-menu="perches" aria-expanded="false">Жёрдочки<span class="chev"></span></button>
+      <button class="nav" data-menu="feeders" aria-expanded="false">Кормушки и поилки<span class="chev"></span></button>
+      <a href="#" class="nav">Игрушки</a>
+    </nav>
+    <div class="lg:hidden flex-1"><button id="mobile-open" class="nav">Меню</button></div>
+
+    <!-- Центр: логотип 160×29, виден только когда шапка белая -->
+    <a href="#" class="logo font-logo text-[23.5px] lg:text-[31px] leading-none tracking-tight whitespace-nowrap">askthebirds</a>
+
+    <!-- Справа: текстом -->
+    <nav class="flex items-center justify-end gap-6 flex-1 min-w-0">
+      <a href="#" class="nav hidden lg:inline-block">Подход</a>
+      <button id="search-open" class="nav hidden lg:inline-block">Поиск</button>
+      <a href="#" class="nav hidden lg:inline-block">Аккаунт</a>
+      <button id="cart-open" class="nav">Корзина</button>
+    </nav>
+
+    <!-- Мега-меню: на всю ширину, 3 зоны. Содержимое подставляется для каждого пункта -->
+    <div id="mega" class="hidden absolute left-0 right-0 top-full bg-white px-6 pt-8 pb-6">
+      <div class="grid grid-cols-12 gap-6">
+        <div id="mega-left" class="col-span-3 flex flex-col gap-3"></div>
+        <div id="mega-mid" class="col-span-3 flex flex-col gap-3"></div>
+        <div class="col-span-6 relative">
+          <div class="ph aspect-[16/9] !items-start !justify-start p-4">Фото</div>
+          <a href="#" class="btn btn-light absolute bottom-6 left-1/2 -translate-x-1/2">Смотреть все</a>
         </div>
-        <a href="#" class="nav-link">Клетки</a>
-        <a href="#" class="nav-link">Жёрдочки</a>
-        <a href="#" class="nav-link">Кормушки и поилки</a>
-        <a href="#" class="nav-link">Игрушки</a>
-      </nav>
-      <button class="lg:hidden nav-link">Меню</button>
+      </div>
+    </div>
 
-      <!-- Центр: логотип (появляется при прокрутке, как у них) -->
-      <a href="#" id="logo" class="absolute left-1/2 -translate-x-1/2 font-logo text-xl md:text-2xl tracking-tight opacity-0 transition-opacity duration-500">askthebirds</a>
-
-      <!-- Справа: текстом, без иконок -->
-      <nav class="flex items-center gap-4 md:gap-5">
-        <a href="#" class="nav-link hidden md:inline">Подход</a>
-        <a href="#" class="nav-link hidden md:inline">Поиск</a>
-        <a href="#" class="nav-link hidden md:inline">Аккаунт</a>
-        <a href="#" class="nav-link">Корзина (0)</a>
-      </nav>
+    <!-- Панель поиска: выезжает под шапкой, страница затемняется -->
+    <div id="search" class="hidden absolute left-0 right-0 top-full bg-white px-6 py-10">
+      <div class="grid grid-cols-2 items-center gap-6">
+        <h2 class="text-[13px] uppercase tracking-[0.01em]">Поиск по сайту</h2>
+        <label class="flex items-center border-b border-black">
+          <input type="text" placeholder="Поиск" class="flex-1 py-2 text-[14px] outline-none placeholder:text-neutral-500">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor"><circle cx="6" cy="6" r="5"/><path d="M10 10l3.5 3.5"/></svg>
+        </label>
+      </div>
     </div>
   </header>
 
-  <main>
-    <!-- 3. Первый экран: большое фото + кнопка -->
-    <section class="relative -mt-14">
-      <div class="ph h-[92vh] min-h-[520px]">Фото на весь экран<br>(товары + природа)</div>
-      <div class="absolute bottom-10 left-1/2 -translate-x-1/2">
-        <a href="#" class="btn bg-white/80">Смотреть все</a>
-      </div>
-    </section>
+  <!-- Затемнение под панелями -->
+  <div id="overlay" class="overlay"></div>
 
-    <!-- 4. Категории -->
-    <section class="px-4 md:px-6 pt-20 md:pt-28 pb-24 reveal">
-      <div class="flex items-center justify-between mb-8">
-        <h2 class="text-sm uppercase tracking-wider">Категории</h2>
+  <!-- Корзина: выезжает справа, 540px -->
+  <aside id="cart" class="drawer px-6 py-5" aria-label="Корзина">
+    <div class="flex items-center justify-between mb-5">
+      <h2 class="text-[13px] font-medium uppercase">Корзина пуста</h2>
+      <button class="js-close" aria-label="Закрыть">
+        <svg width="12" height="12" viewBox="0 0 12 12" stroke="currentColor"><path d="M1 1l10 10M11 1L1 11"/></svg>
+      </button>
+    </div>
+    <div class="relative">
+      <div class="ph aspect-[16/9] !items-start !justify-start p-4">Фото</div>
+      <a href="#" class="btn btn-light absolute bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap">Хиты продаж</a>
+    </div>
+    <div class="mt-auto">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-[13px] font-medium uppercase">Дополните</h3>
+        <div class="flex gap-3 text-[14px]"><button aria-label="Назад">←</button><button aria-label="Вперёд">→</button></div>
+      </div>
+      <div class="flex gap-4 overflow-hidden mb-6">
+        <div class="flex gap-3 min-w-[230px]"><div class="ph w-14 h-16 shrink-0"></div><div class="text-[12px] uppercase leading-4">Название<br><b class="font-medium">товара</b></div></div>
+        <div class="flex gap-3 min-w-[230px]"><div class="ph w-14 h-16 shrink-0"></div><div class="text-[12px] uppercase leading-4">Название<br><b class="font-medium">товара</b><div class="mt-2 inline-flex items-center gap-6 border border-black px-2 py-1 normal-case">0 ₽ <span>+</span></div></div></div>
+      </div>
+      <div class="flex justify-between border-t border-neutral-200 pt-4 mb-4 text-[12px] uppercase">
+        <span>Доставка</span><span>Рассчитывается при оформлении</span>
+      </div>
+      <button disabled class="w-full h-10 bg-brown/20 text-white text-[12px] uppercase">Оформить заказ · 0 ₽</button>
+    </div>
+  </aside>
+
+  <!-- Мобильное меню: на весь экран -->
+  <div id="mobile" class="fixed inset-0 bg-white z-[60] hidden flex-col px-3 py-5">
+    <button class="js-close nav self-start mb-6">Закрыть</button>
+    <label class="flex items-center border-b border-black mb-8">
+      <input type="text" placeholder="Поиск" class="flex-1 py-2 text-[14px] outline-none">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor"><circle cx="6" cy="6" r="5"/><path d="M10 10l3.5 3.5"/></svg>
+    </label>
+    <nav class="flex flex-col gap-4 text-[14px] font-medium uppercase">
+      <button class="flex justify-between items-center uppercase" aria-expanded="false">Магазин<span class="chev"></span></button>
+      <button class="flex justify-between items-center uppercase" aria-expanded="false">Клетки<span class="chev"></span></button>
+      <button class="flex justify-between items-center uppercase" aria-expanded="false">Жёрдочки<span class="chev"></span></button>
+      <button class="flex justify-between items-center uppercase" aria-expanded="false">Кормушки и поилки<span class="chev"></span></button>
+      <a href="#" class="mt-2">Игрушки</a>
+      <a href="#">Подход</a>
+    </nav>
+    <div class="mt-auto flex flex-col items-center gap-4">
+      <a href="#" class="btn w-full text-center">Смотреть все</a>
+      <a href="#" class="text-[12px] uppercase">Аккаунт</a>
+    </div>
+  </div>
+
+  <!-- Окно подписки: появляется через несколько секунд при первом визите -->
+  <div id="popup" class="fixed inset-0 z-[70] hidden items-center justify-center bg-black/40 p-3">
+    <div class="relative bg-white w-full max-w-[760px] grid md:grid-cols-2">
+      <div class="ph aspect-square md:aspect-auto md:min-h-[340px]">Фото</div>
+      <div class="p-6 flex flex-col justify-center">
+        <button class="js-close absolute top-4 right-4" aria-label="Закрыть">
+          <svg width="12" height="12" viewBox="0 0 12 12" stroke="currentColor"><path d="M1 1l10 10M11 1L1 11"/></svg>
+        </button>
+        <h2 class="text-[13px] font-medium uppercase mb-2">Слоган</h2>
+        <p class="text-[13px] mb-8">Подпишитесь и получите −10% на первый заказ и ранний доступ к новинкам.</p>
+        <input type="email" placeholder="Email" class="border-b border-black py-2 text-[14px] outline-none mb-5">
+        <button class="btn self-center">Подписаться</button>
+        <p class="text-[11px] mt-6">Подписываясь, вы соглашаетесь с <a href="#" class="underline">политикой конфиденциальности</a>.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Баннер cookies: внизу на всю ширину -->
+  <div id="cookies" class="fixed bottom-0 inset-x-0 z-[65] hidden bg-[#efe9e3] px-3 lg:px-6 py-5">
+    <h2 class="text-[14px] font-medium mb-2">Этот сайт использует cookies</h2>
+    <p class="text-[12px] mb-4">Мы используем cookies, чтобы сайт работал лучше.</p>
+    <div class="flex flex-wrap gap-2">
+      <button class="js-cookie bg-brown text-white text-[12px] uppercase px-3 py-1.5">Разрешить все</button>
+      <button class="js-cookie bg-brown text-white text-[12px] uppercase px-3 py-1.5">Только необходимые</button>
+      <button class="bg-brown text-white text-[12px] uppercase px-3 py-1.5">Настройки</button>
+    </div>
+  </div>
+
+  <main class="flex-1">
+    <!-- 3. Первый экран: 100vh, шапка лежит поверх фото -->
+    <section class="relative -mt-14 h-screen min-h-[560px]">
+      <div class="ph absolute inset-0 !items-start !justify-start pt-24 px-6">Фото на весь экран (на телефоне — отдельное вертикальное)</div>
+      <div class="absolute bottom-8 md:bottom-14 left-1/2 -translate-x-1/2">
         <a href="#" class="btn">Смотреть все</a>
       </div>
-      <div class="grid grid-cols-2 md:grid-cols-4">
-        <a href="#" class="ph aspect-[3/4] md:aspect-[2/3] border border-white hover:brightness-95 transition flex-col gap-2">
-          <span>Фото</span><span class="text-neutral-700 text-sm">Клетки</span>
+    </section>
+
+    <!-- 4. Категории: отступы 100/80px, плитки 346×521 без зазоров: 1 колонка до 768px, 2 до 1024px, 4 дальше; поля 24/12px -->
+    <section class="reveal px-3 md:px-6 py-20 md:py-[100px]">
+      <div class="flex items-center justify-between mb-6 md:mb-10">
+        <h2 class="h3">Категории</h2>
+        <a href="#" class="btn">Смотреть все</a>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+        <a href="#" class="group/tile relative block aspect-[346/521] overflow-hidden">
+          <div class="ph absolute inset-0 transition-transform duration-300 group-hover/tile:scale-105">Фото</div>
+          <h3 class="h3 absolute bottom-8 inset-x-0 text-center text-white [text-shadow:0_0_12px_rgba(0,0,0,.25)] transition-transform duration-300 group-hover/tile:-translate-y-2.5">Клетки</h3>
         </a>
-        <a href="#" class="ph aspect-[3/4] md:aspect-[2/3] border border-white hover:brightness-95 transition flex-col gap-2">
-          <span>Фото</span><span class="text-neutral-700 text-sm">Жёрдочки</span>
+        <a href="#" class="group/tile relative block aspect-[346/521] overflow-hidden">
+          <div class="ph absolute inset-0 transition-transform duration-300 group-hover/tile:scale-105">Фото</div>
+          <h3 class="h3 absolute bottom-8 inset-x-0 text-center text-white [text-shadow:0_0_12px_rgba(0,0,0,.25)] transition-transform duration-300 group-hover/tile:-translate-y-2.5">Жёрдочки</h3>
         </a>
-        <a href="#" class="ph aspect-[3/4] md:aspect-[2/3] border border-white hover:brightness-95 transition flex-col gap-2">
-          <span>Фото</span><span class="text-neutral-700 text-sm">Кормушки и поилки</span>
+        <a href="#" class="group/tile relative block aspect-[346/521] overflow-hidden">
+          <div class="ph absolute inset-0 transition-transform duration-300 group-hover/tile:scale-105">Фото</div>
+          <h3 class="h3 absolute bottom-8 inset-x-0 text-center text-white [text-shadow:0_0_12px_rgba(0,0,0,.25)] transition-transform duration-300 group-hover/tile:-translate-y-2.5">Кормушки и поилки</h3>
         </a>
-        <a href="#" class="ph aspect-[3/4] md:aspect-[2/3] border border-white hover:brightness-95 transition flex-col gap-2">
-          <span>Фото</span><span class="text-neutral-700 text-sm">Игрушки</span>
+        <a href="#" class="group/tile relative block aspect-[346/521] overflow-hidden">
+          <div class="ph absolute inset-0 transition-transform duration-300 group-hover/tile:scale-105">Фото</div>
+          <h3 class="h3 absolute bottom-8 inset-x-0 text-center text-white [text-shadow:0_0_12px_rgba(0,0,0,.25)] transition-transform duration-300 group-hover/tile:-translate-y-2.5">Игрушки</h3>
         </a>
       </div>
     </section>
 
-    <!-- 5. Бренд-блок: видео/фото + логотип + слоган -->
-    <section class="relative reveal">
-      <div class="ph h-[80vh] min-h-[480px] !items-start !justify-start p-6">Видео или фото (попугай, природа)</div>
-      <div class="absolute inset-0 flex flex-col items-center justify-center gap-6 pointer-events-none">
-        <div class="font-logo text-5xl md:text-8xl text-neutral-500/70">askthebirds</div>
-        <div class="text-xs uppercase tracking-widest text-neutral-600">Слоган</div>
-        <a href="#" class="btn pointer-events-auto bg-white/70">Смотреть все</a>
+    <!-- 5. Видео-блок: 100vh, слоган + светлая кнопка внизу по центру -->
+    <section class="reveal relative h-screen min-h-[560px]">
+      <div class="ph !bg-ph-dark !text-white/70 absolute inset-0 !items-start !justify-start p-6">Видео на весь экран</div>
+      <div class="absolute inset-x-0 bottom-8 md:bottom-14 flex flex-col items-center gap-8 px-6 text-center">
+        <h3 class="h3 text-white">Слоган</h3>
+        <a href="#" class="btn btn-light">Смотреть все</a>
       </div>
     </section>
   </main>
 
-  <!-- 6. Подвал -->
-  <footer class="bg-bar text-white px-4 md:px-6 pt-14 pb-10">
-    <div class="grid grid-cols-2 md:grid-cols-12 gap-8">
-      <div class="md:col-span-2 flex flex-col gap-2.5 text-xs">
-        <div class="uppercase tracking-wider text-[11px] opacity-70 mb-2">Магазин</div>
-        <a href="#">Смотреть все</a><a href="#">Клетки</a><a href="#">Жёрдочки</a><a href="#">Кормушки и поилки</a><a href="#">Игрушки</a>
-      </div>
-      <div class="md:col-span-2 flex flex-col gap-2.5 text-xs">
-        <div class="uppercase tracking-wider text-[11px] opacity-70 mb-2">Заказы и помощь</div>
-        <a href="#">Вопросы и ответы</a><a href="#">Доставка</a><a href="#">Отследить заказ</a><a href="#">Аккаунт</a><a href="#">Возврат</a>
-      </div>
-      <div class="md:col-span-2 flex flex-col gap-2.5 text-xs">
-        <div class="uppercase tracking-wider text-[11px] opacity-70 mb-2">О нас</div>
-        <a href="#">Подход</a><a href="#">Контакты</a><a href="#">Telegram</a>
-      </div>
-      <div class="col-span-2 md:col-span-4 md:col-start-9">
-        <div class="uppercase tracking-wider text-[11px] opacity-70 mb-2">Подписка</div>
-        <div class="text-sm font-medium uppercase mb-6">Подпишитесь на новости</div>
-        <form class="flex border-b border-white/60" onsubmit="return false">
-          <input type="email" placeholder="Email" class="bg-transparent flex-1 py-2 text-sm placeholder:text-white/60 outline-none">
-          <button class="px-2">→</button>
+  <!-- 6. Подвал. Компьютер: колонки слева через 80px, подписка справа 445px, юр. строка внизу.
+       Телефон: подписка сверху, ниже сетка 2×2, юр. ссылки — колонкой рядом с «О нас». -->
+  <footer class="bg-brown text-white pt-10 lg:pt-20 pb-4 lg:pb-6 px-3 md:px-6">
+    <div class="flex flex-col lg:flex-row-reverse lg:justify-between gap-10 lg:gap-12">
+      <div class="lg:w-[445px]">
+        <h2 class="caps mb-[9px]">Подписка</h2>
+        <p class="text-[14px] md:text-[16px] font-medium uppercase leading-[1.2] mb-10 max-w-[200px] lg:max-w-none">Подпишитесь на рассылку, чтобы быть в курсе.</p>
+        <form class="flex items-center border-b border-white h-[41px]" onsubmit="return false">
+          <input type="email" placeholder="Email" class="bg-transparent flex-1 text-[14px] placeholder:text-white/80 outline-none">
+          <button aria-label="Подписаться" class="px-1">
+            <svg width="14" height="10" viewBox="0 0 14 10" fill="none" stroke="currentColor"><path d="M0 5h13M9 1l4 4-4 4"/></svg>
+          </button>
         </form>
-        <p class="text-[11px] opacity-70 mt-3">Подписываясь, вы соглашаетесь с <a href="#" class="underline">политикой конфиденциальности</a>.</p>
+        <p class="text-[14px] leading-[1.3] text-white/80 mt-2.5">Подписываясь, вы соглашаетесь с <a href="#" class="underline">политикой конфиденциальности</a>.</p>
+      </div>
+      <div class="grid grid-cols-2 gap-x-3 gap-y-10 lg:flex lg:gap-20">
+        <div>
+          <p class="caps mb-6">Магазин</p>
+          <ul class="flex flex-col gap-[19px] text-[13px] md:text-[14px] leading-[1.3]">
+            <li><a href="#" class="hover:underline">Смотреть все</a></li>
+            <li><a href="#" class="hover:underline">Клетки</a></li>
+            <li><a href="#" class="hover:underline">Жёрдочки</a></li>
+            <li><a href="#" class="hover:underline">Кормушки и поилки</a></li>
+            <li><a href="#" class="hover:underline">Игрушки</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="caps mb-6">Заказы и помощь</p>
+          <ul class="flex flex-col gap-[19px] text-[13px] md:text-[14px] leading-[1.3]">
+            <li><a href="#" class="hover:underline">Вопросы и ответы</a></li>
+            <li><a href="#" class="hover:underline">Доставка</a></li>
+            <li><a href="#" class="hover:underline">Отследить заказ</a></li>
+            <li><a href="#" class="hover:underline">Мой аккаунт</a></li>
+            <li><a href="#" class="hover:underline">Возврат</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="caps mb-6">О нас</p>
+          <ul class="flex flex-col gap-[19px] text-[13px] md:text-[14px] leading-[1.3]">
+            <li><a href="#" class="hover:underline">Подход</a></li>
+            <li><a href="#" class="hover:underline">Контакты</a></li>
+            <li><a href="#" class="hover:underline">Telegram</a></li>
+          </ul>
+        </div>
+        <!-- юр. ссылки на телефоне: колонкой рядом с «О нас» -->
+        <ul class="lg:hidden flex flex-col gap-[19px] text-[13px] md:text-[14px] leading-[1.3] pt-10">
+          <li><a href="#" class="hover:underline">Политика конфиденциальности</a></li>
+          <li><a href="#" class="hover:underline">Пользовательское соглашение</a></li>
+          <li><a href="#" class="hover:underline">Политика cookies</a></li>
+          <li><button class="hover:underline">Настройки cookies</button></li>
+        </ul>
       </div>
     </div>
-    <div class="mt-16 flex flex-wrap justify-between gap-4 text-[11px] opacity-70">
-      <span>© askthebirds</span>
-      <span class="flex gap-4"><a href="#">Политика конфиденциальности</a><a href="#">Условия</a></span>
+    <!-- юр. строка: на компьютере ссылки + ©, на телефоне только © -->
+    <div class="mt-12 lg:mt-[196px] flex flex-wrap items-center gap-x-8 gap-y-2 text-[12px] leading-[1.3] text-white/80">
+      <a href="#" class="hidden lg:inline hover:underline">Политика конфиденциальности</a>
+      <a href="#" class="hidden lg:inline hover:underline">Пользовательское соглашение</a>
+      <a href="#" class="hidden lg:inline hover:underline">Политика cookies</a>
+      <button class="hidden lg:inline hover:underline">Настройки cookies</button>
+      <span>©2026 askthebirds</span>
     </div>
   </footer>
 
-  <!-- Кнопка чата справа внизу -->
-  <button class="fixed bottom-5 right-5 z-50 w-12 h-12 rounded-full bg-white shadow-lg border border-neutral-200 text-lg" title="Чат">💬</button>
+  <!-- Виджет чата: белый круг с тенью, тёмная иконка-облачко с тремя точками -->
+  <button aria-label="Открыть чат" class="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-white shadow-[0_2px_12px_rgba(0,0,0,.18)] flex items-center justify-center hover:scale-105 transition-transform">
+    <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="#1f1f1f" d="M12 3C6.5 3 2 6.8 2 11.5c0 2.4 1.2 4.6 3.1 6.1L4.3 21l4-2c1.2.4 2.4.6 3.7.6 5.5 0 10-3.8 10-8.5S17.5 3 12 3z"/>
+      <circle cx="8" cy="11.5" r="1.3" fill="#fff"/><circle cx="12" cy="11.5" r="1.3" fill="#fff"/><circle cx="16" cy="11.5" r="1.3" fill="#fff"/>
+    </svg>
+  </button>
 
   <script>
-    // Логотип в шапке появляется после первого экрана, шапка получает границу
-    const logo = document.getElementById('logo');
-    const header = document.getElementById('header');
-    const onScroll = () => {
-      const scrolled = window.scrollY > window.innerHeight * 0.5;
-      logo.classList.toggle('opacity-0', !scrolled);
-      header.classList.toggle('border-neutral-200', scrolled);
-    };
-    addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
+    // Появление страницы из размытия
+    addEventListener('load', () => requestAnimationFrame(() => document.body.classList.remove('loading')));
+    setTimeout(() => document.body.classList.remove('loading'), 1500);
 
-    // Плавное проявление блоков при прокрутке
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.style.opacity = 1; e.target.style.transform = 'none'; io.unobserve(e.target); } });
-    }, { threshold: 0.15 });
-    document.querySelectorAll('.reveal').forEach(el => {
-      el.style.opacity = 0; el.style.transform = 'translateY(24px)';
-      el.style.transition = 'opacity .9s ease, transform .9s ease';
-      io.observe(el);
+    const $ = id => document.getElementById(id);
+    const header = $('header'), mega = $('mega'), search = $('search'), overlay = $('overlay');
+
+    // Шапка: белая при прокрутке, наведении или открытой панели
+    let hovering = false;
+    const paint = () => header.classList.toggle('solid',
+      scrollY > 10 || hovering || !mega.classList.contains('hidden') || !search.classList.contains('hidden'));
+    addEventListener('scroll', paint, { passive: true });
+    header.addEventListener('mouseenter', () => { hovering = true; paint(); });
+    header.addEventListener('mouseleave', () => { hovering = false; closeMega(); });
+
+    // Мега-меню: одна разметка, содержимое для каждого пункта
+    const menus = {
+      shop:    { left: ['Смотреть все', 'Хиты продаж'], title: 'По категориям', items: ['Клетки', 'Жёрдочки', 'Кормушки и поилки', 'Игрушки'] },
+      cages:   { left: ['Все клетки', 'Хиты продаж'],   title: 'По типу', items: ['Подкатегория', 'Подкатегория', 'Подкатегория'] },
+      perches: { left: ['Все жёрдочки', 'Хиты продаж'], title: 'По типу', items: ['Подкатегория', 'Подкатегория', 'Подкатегория'] },
+      feeders: { left: ['Все кормушки и поилки', 'Хиты продаж'], title: 'По типу', items: ['Подкатегория', 'Подкатегория', 'Подкатегория'] },
+    };
+    const link = (t, cls) => `<a href="#" class="${cls} hover:underline">${t}</a>`;
+    const triggers = header.querySelectorAll('[data-menu]');
+    function openMega(key, btn) {
+      const m = menus[key];
+      $('mega-left').innerHTML = m.left.map(t => link(t, 'text-[13px] uppercase tracking-[0.01em]')).join('');
+      $('mega-mid').innerHTML = `<div class="caps text-neutral-400 mb-2">${m.title}</div>` + m.items.map(t => link(t, 'text-[14px]')).join('');
+      triggers.forEach(b => b.setAttribute('aria-expanded', b === btn));
+      search.classList.add('hidden');
+      mega.classList.remove('hidden'); paint();
+    }
+    function closeMega() { mega.classList.add('hidden'); triggers.forEach(b => b.setAttribute('aria-expanded', false)); paint(); }
+    triggers.forEach(b => b.addEventListener('mouseenter', () => openMega(b.dataset.menu, b)));
+    header.querySelectorAll('nav .nav:not([data-menu])').forEach(el => el.addEventListener('mouseenter', closeMega));
+
+    // Поиск: панель под шапкой + затемнение
+    $('search-open').addEventListener('click', () => {
+      const open = search.classList.toggle('hidden') === false;
+      overlay.style.zIndex = 40;
+      closeMega(); overlay.classList.toggle('open', open); paint();
+      if (open) search.querySelector('input').focus();
     });
+
+    // Корзина: выезжает справа
+    // (у корзины затемнение ложится и на шапку, у поиска — нет)
+    $('cart-open').addEventListener('click', () => { closeMega(); search.classList.add('hidden'); overlay.style.zIndex = 55; $('cart').classList.add('open'); overlay.classList.add('open'); });
+
+    // Мобильное меню
+    $('mobile-open').addEventListener('click', () => { $('mobile').classList.replace('hidden', 'flex'); });
+    $('mobile').querySelectorAll('button[aria-expanded]').forEach(b => b.addEventListener('click', () => b.setAttribute('aria-expanded', b.getAttribute('aria-expanded') !== 'true')));
+
+    // Закрыть всё: крестик, клик по затемнению, Esc
+    function closeAll() {
+      $('cart').classList.remove('open'); overlay.classList.remove('open');
+      search.classList.add('hidden'); closeMega();
+      $('mobile').classList.replace('flex', 'hidden');
+      $('popup').classList.replace('flex', 'hidden');
+    }
+    document.querySelectorAll('.js-close').forEach(b => b.addEventListener('click', closeAll));
+    overlay.addEventListener('click', closeAll);
+    addEventListener('keydown', e => { if (e.key === 'Escape') closeAll(); });
+    paint();
+
+    // Окно подписки (через 3 с, один раз за визит) и баннер cookies (пока не выбран вариант)
+    const store = { get: k => { try { return sessionStorage.getItem(k); } catch { return null; } },
+                    set: (k, v) => { try { sessionStorage.setItem(k, v); } catch {} } };
+    if (!store.get('popup')) setTimeout(() => { $('popup').classList.replace('hidden', 'flex'); store.set('popup', 1); }, 3000);
+    $('popup').addEventListener('click', e => { if (e.target.id === 'popup') closeAll(); });
+    if (!store.get('cookies')) $('cookies').classList.remove('hidden');
+    document.querySelectorAll('.js-cookie').forEach(b => b.addEventListener('click', () => { $('cookies').classList.add('hidden'); store.set('cookies', 1); }));
+
+    // Плашка: смена сообщений каждые 4 секунды
+    const msgs = document.querySelectorAll('.ticker > *');
+    let i = 0;
+    setInterval(() => {
+      const cur = msgs[i], next = msgs[(i + 1) % msgs.length];
+      cur.style.transform = 'translateY(-100%)'; cur.style.opacity = 0;
+      next.style.transition = 'none'; next.style.transform = 'translateY(100%)'; next.style.opacity = 0;
+      requestAnimationFrame(() => requestAnimationFrame(() => { next.style.transition = ''; next.style.transform = 'none'; next.style.opacity = 1; }));
+      i = (i + 1) % msgs.length;
+    }, 4000);
+
+    // Блоки проявляются из размытия при прокрутке
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
   </script>
 </body>
 </html>
