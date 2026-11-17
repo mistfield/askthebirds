@@ -6,6 +6,12 @@
       "runtimeExecutable": "python3",
       "runtimeArgs": ["-m", "http.server", "8800", "--directory", "wireframe"],
       "port": 8800
+    },
+    {
+      "name": "site",
+      "runtimeExecutable": "/Users/mist/.cargo/bin/cargo",
+      "runtimeArgs": ["leptos", "serve"],
+      "port": 3000
     }
   ]
 }

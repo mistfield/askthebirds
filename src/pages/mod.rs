@@ -1,0 +1,23 @@
+mod account;
+mod approach;
+mod cart;
+mod catalog;
+mod contact;
+mod faq;
+mod home;
+mod legal;
+mod product;
+mod returns;
+mod shipping;
+
+pub use account::AccountPage;
+pub use approach::ApproachPage;
+pub use cart::CartPage;
+pub use catalog::CatalogPage;
+pub use contact::ContactPage;
+pub use faq::FaqPage;
+pub use home::HomePage;
+pub use legal::LegalPage;
+pub use product::ProductPage;
+pub use returns::ReturnsPage;
+pub use shipping::ShippingPage;

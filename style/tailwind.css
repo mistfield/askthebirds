@@ -1,0 +1,70 @@
+/* Tailwind ищет классы только в Rust-коде сайта */
+@import "tailwindcss" source(none);
+@source "../src";
+
+/* Стили отдельных страниц — каждая правит только свой файл */
+@import "./pages/catalog.css";
+@import "./pages/product.css";
+@import "./pages/approach.css";
+@import "./pages/cart.css";
+@import "./pages/account.css";
+@import "./pages/faq.css";
+@import "./pages/shipping.css";
+@import "./pages/returns.css";
+@import "./pages/contact.css";
+@import "./pages/legal.css";
+
+/* Leptos оборачивает каждый «остров» в <leptos-island>. Делаем обёртку невидимой для раскладки,
+   иначе, например, sticky-шапка «прилипает» внутри обёртки своей же высоты и уезжает при прокрутке. */
+leptos-island { display: contents; }
+
+/* Inter крупнее Founders Grotesk при том же кегле — выравниваем по высоте заглавных (у них 0.63) */
+html { font-size-adjust: cap-height 0.63; }
+
+@theme {
+  --color-brown: #696159;       /* как у natureofthings: плашка, подвал, кнопки в баннерах */
+  --color-oatmilk: #f0eae0;     /* их «овсяный»: баннер cookies, выделенные блоки */
+  --color-success: #617945;
+  --color-success-light: #e2ebd7;
+  --color-error: #d43f00;
+  --color-error-light: #ffc4ab;
+  --color-ph: #e7e5e2;          /* заглушка под фото — уберём, когда будут фото */
+  --color-ph-dark: #b9b4ae;
+  --color-ph-text: #8f8983;
+  --font-sans: "Inter", system-ui, sans-serif;
+}
+
+@layer components {
+  .ph { @apply bg-ph text-ph-text flex items-center justify-center text-center text-[11px] uppercase tracking-[0.04em]; }
+  /* меню: 13px, верхний регистр, разрядка 1% */
+  .nav { @apply text-[13px] leading-[1.2] uppercase tracking-[0.01em] py-2 border-b border-transparent hover:border-current transition-colors; }
+  /* мелкие заголовки: 12px, разрядка 4% */
+  .caps { @apply text-[12px] leading-[1.3] uppercase tracking-[0.04em]; }
+  /* кнопка: прозрачная, рамка 1px, 12px, отступы 8/40, высота 32 */
+  .btn { @apply inline-block border border-black px-10 py-2 text-[12px] uppercase tracking-[0.01em] leading-[1.2] transition-colors duration-150 hover:bg-black hover:text-white; }
+  .btn-light { @apply border-white text-white hover:bg-white hover:text-black; }
+  /* заголовки блоков: 18px на компьютере, 16px на телефоне */
+  .h3 { @apply text-[16px] md:text-[18px] font-medium uppercase leading-[1.1]; }
+  /* названия товаров в списках: 12/13px, верхний регистр */
+  .h6 { @apply text-[12px] md:text-[13px] leading-[1.2] tracking-[0.01em] uppercase; }
+}
+
+/* Плавное появление: страница проявляется из размытия при загрузке,
+   блоки .reveal — при прокрутке. Без JavaScript: анимации CSS, привязанные к прокрутке. */
+@keyframes atb-unblur { from { opacity: 0; filter: blur(10px); } to { opacity: 1; filter: none; } }
+@media (prefers-reduced-motion: no-preference) {
+  body { animation: atb-unblur .8s ease both; }
+  @supports (animation-timeline: view()) {
+    .reveal { animation: atb-unblur linear both; animation-timeline: view(); animation-range: entry 0% entry 30%; }
+  }
+}
+
+/* тонкая стрелка-уголок у пунктов с меню, поворачивается при открытии */
+.chev { display: inline-block; width: 7px; height: 7px; border-right: 1px solid currentColor; border-bottom: 1px solid currentColor; transform: translateY(-3px) rotate(45deg); margin-left: 6px; transition: transform .2s; }
+[aria-expanded="true"] > .chev { transform: translateY(0) rotate(-135deg); }
+
+/* фирменная полоса прокрутки: 10px, белая дорожка, коричневый ползунок, чёрный при наведении */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: #fff; }
+::-webkit-scrollbar-thumb { background: var(--color-brown); border-left: 1px solid #fff; transition: background .15s; }
+::-webkit-scrollbar-thumb:hover { background: #000; }

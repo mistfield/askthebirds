@@ -17,6 +17,29 @@
 
 Подробности: [docs/research](docs/research).
 
+## Запуск
+
+Нужны [Rust](https://rustup.rs) с целью `wasm32-unknown-unknown` и [cargo-leptos](https://github.com/leptos-rs/cargo-leptos):
+
+```bash
+rustup target add wasm32-unknown-unknown
+cargo install --locked cargo-leptos
+```
+
+Собрать и запустить сайт — http://127.0.0.1:3000 (после правок перезапустить):
+
+```bash
+cargo leptos serve
+```
+
+> `cargo leptos watch` пока не используем: в Leptos 0.8 он вставляет в HTML служебные пометки
+> для «горячей» перезагрузки, и «острова» (например, шапка) ломаются при оживлении в браузере.
+
+Боевая сборка: `cargo leptos build --release`.
+
+Код: `src/app.rs` — оболочка и маршруты, `src/components/` — шапка, подвал, чат, `src/pages/` — страницы, `style/tailwind.css` — шрифт, цвета, общие стили.
+Вайрфреймы в `wireframe/` — образец, по которому переносим страницы.
+
 ## Структура сайта
 
 За основу берём структуру [natureofthings.com](https://natureofthings.com) один в один, свои дополнения — позже.
@@ -41,4 +64,4 @@
 - [x] Вайрфреймы всех страниц — [wireframe/](wireframe/)
 - [x] Визуальный дизайн: шрифт, логотип, цвета, [памятка по фото](design/photo.html)
 - [ ] Фотосъёмка товаров и атмосферы
-- [ ] Разработка
+- [ ] Разработка: скелет Leptos + Axum ✓, главная (без интерактивности) ✓; дальше — меню, поиск, корзина, окно подписки, cookies, остальные страницы
