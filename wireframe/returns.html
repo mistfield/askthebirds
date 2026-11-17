@@ -164,25 +164,26 @@
     </div>
   </div>
 
-  <!-- Окно подписки: появляется через несколько секунд при первом визите -->
-  <div id="popup" class="fixed inset-0 z-[70] hidden items-center justify-center bg-black/40 p-3">
-    <div class="relative bg-white w-full max-w-[760px] grid md:grid-cols-2">
-      <div class="ph aspect-square md:aspect-auto md:min-h-[340px]">Фото</div>
-      <div class="p-6 flex flex-col justify-center">
-        <button class="js-close absolute top-4 right-4" aria-label="Закрыть">
+  <!-- Окно подписки: через 3 с при первом визите. До 700px — узкая карточка 320px: текст сверху, фото 5:4 снизу.
+       Шире — две колонки: фото слева, текст справа. Фон светлый полупрозрачный, окно прокручивается, если не влезает. -->
+  <div id="popup" class="fixed inset-0 z-[70] hidden justify-center overflow-y-auto bg-[rgba(255,251,251,.6)] p-3">
+    <div class="relative my-auto bg-white w-[320px] flex flex-col min-[701px]:w-full min-[701px]:max-w-[760px] min-[701px]:grid min-[701px]:grid-cols-2">
+      <div class="ph aspect-[5/4] order-last min-[701px]:order-first min-[701px]:aspect-auto min-[701px]:min-h-[340px]">Фото</div>
+      <div class="pt-5 pb-6 min-[701px]:p-6 flex flex-col justify-center">
+        <button class="js-close absolute top-4 right-2.5 min-[701px]:right-4" aria-label="Закрыть">
           <svg width="12" height="12" viewBox="0 0 12 12" stroke="currentColor"><path d="M1 1l10 10M11 1L1 11"/></svg>
         </button>
-        <h2 class="text-[13px] font-medium uppercase mb-2">Слоган</h2>
-        <p class="text-[13px] mb-8">Подпишитесь и получите −10% на первый заказ и ранний доступ к новинкам.</p>
-        <input type="email" placeholder="Email" class="border-b border-black py-2 text-[14px] outline-none mb-5">
-        <button class="btn self-center">Подписаться</button>
-        <p class="text-[11px] mt-6">Подписываясь, вы соглашаетесь с <a href="#" class="underline">политикой конфиденциальности</a>.</p>
+        <h2 class="text-[14px] min-[701px]:text-[13px] font-medium uppercase mb-2 px-2.5 min-[701px]:px-0">Слоган</h2>
+        <p class="text-[13px] mb-5 min-[701px]:mb-8 px-2.5 min-[701px]:px-0">Подпишитесь и получите −10% на первый заказ и ранний доступ к новинкам.</p>
+        <input type="email" placeholder="Email" class="border-b border-black py-2 pl-4 min-[701px]:pl-0 text-[14px] outline-none mb-5">
+        <button class="h-11 border-2 border-black text-[13px] hover:bg-black hover:text-white transition-colors min-[701px]:h-auto min-[701px]:border min-[701px]:self-center min-[701px]:px-10 min-[701px]:py-2 min-[701px]:text-[12px] min-[701px]:uppercase">Подписаться</button>
+        <p class="text-[11px] mt-6 px-1 min-[701px]:px-0">Подписываясь, вы соглашаетесь с <a href="#" class="underline">политикой конфиденциальности</a>.</p>
       </div>
     </div>
   </div>
 
   <!-- Баннер cookies: внизу на всю ширину -->
-  <div id="cookies" class="fixed bottom-0 inset-x-0 z-[65] hidden bg-[#efe9e3] px-3 lg:px-6 py-5">
+  <div id="cookies" class="fixed bottom-0 inset-x-0 z-[75] hidden bg-[#efe9e3] px-3 lg:px-6 py-5">
     <h2 class="text-[14px] font-medium mb-2">Этот сайт использует cookies</h2>
     <p class="text-[12px] mb-4">Мы используем cookies, чтобы сайт работал лучше.</p>
     <div class="flex flex-wrap gap-2">
@@ -269,11 +270,12 @@
     </div>
   </footer>
 
-  <!-- Виджет чата: белый круг с тенью, тёмная иконка-облачко с тремя точками -->
-  <button aria-label="Открыть чат" class="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-white shadow-[0_2px_12px_rgba(0,0,0,.18)] flex items-center justify-center hover:scale-105 transition-transform">
-    <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
-      <path fill="#1f1f1f" d="M12 3C6.5 3 2 6.8 2 11.5c0 2.4 1.2 4.6 3.1 6.1L4.3 21l4-2c1.2.4 2.4.6 3.7.6 5.5 0 10-3.8 10-8.5S17.5 3 12 3z"/>
-      <circle cx="8" cy="11.5" r="1.3" fill="#fff"/><circle cx="12" cy="11.5" r="1.3" fill="#fff"/><circle cx="16" cy="11.5" r="1.3" fill="#fff"/>
+  <!-- Виджет чата: как у natureofthings — белый круг 60px, тень 0 2px 4px rgba(22,22,22,.16), справа 30px / снизу 33px;
+       внутри круглое облачко #333 28px с хвостиком внизу слева и тремя светлыми точками -->
+  <button aria-label="Открыть чат" class="fixed bottom-[33px] right-[30px] z-50 w-[60px] h-[60px] rounded-full bg-white shadow-[0_2px_4px_rgba(22,22,22,.16)] flex items-center justify-center">
+    <svg width="28" height="28" viewBox="0 0 56 56" aria-hidden="true">
+      <path fill="#333" d="M28 0a28 28 0 1 1-12.4 53.1C10.3 55.3 4.6 56.1.7 56c-.7 0-.9-.9-.3-1.4 3.4-2.4 5.6-5 6.9-7.8A28 28 0 0 1 28 0Z"/>
+      <circle cx="18" cy="28" r="2.5" fill="#F4F4F6"/><circle cx="28" cy="28" r="2.5" fill="#F4F4F6"/><circle cx="38" cy="28" r="2.5" fill="#F4F4F6"/>
     </svg>
   </button>
 
