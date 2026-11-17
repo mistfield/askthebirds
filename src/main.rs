@@ -1,5 +1,8 @@
 //! Сервер: Axum отдаёт страницы, которые Leptos собирает в готовый HTML.
 
+// Как и в lib.rs: боевой сборке нужен запас глубины для больших типов страниц.
+#![recursion_limit = "256"]
+
 #[cfg(feature = "ssr")]
 #[tokio::main]
 async fn main() {

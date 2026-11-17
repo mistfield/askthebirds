@@ -3,11 +3,6 @@
 /* на странице товара нет фото под шапкой, поэтому логотип виден сразу */
 body:has(#pdp) header > a[href="/"] { opacity: 1; }
 
-/* Общая анимация появления (tailwind.css) держит на body filter: blur(0px) и после конца — из-за этого
-   «fixed»-слои (шторка корзины, полноэкранный просмотр) считаются от body, а не от экрана, и появляется
-   горизонтальная прокрутка. На этой странице после анимации фильтр снимаем. Правильнее — поправить в tailwind.css. */
-body:has(#pdp) { animation-fill-mode: backwards; }
-
 /* наведение на кнопки в карточке товара — коричневое, как у них */
 .btn-brown:hover { background-color: var(--color-brown); border-color: var(--color-brown); color: #fff; }
 

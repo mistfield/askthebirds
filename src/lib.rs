@@ -1,3 +1,6 @@
+// Страницы Leptos — большие вложенные типы; боевой сборке сервера (release) нужен запас глубины.
+#![recursion_limit = "256"]
+
 pub mod app;
 pub mod cart;
 pub mod components;

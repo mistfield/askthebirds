@@ -45,7 +45,7 @@ fn LinkColumn(title: &'static str, links: &'static [(&'static str, &'static str)
 #[component]
 pub fn Footer() -> impl IntoView {
     view! {
-        <footer class="bg-brown text-white pt-10 lg:pt-20 pb-4 lg:pb-6 px-3 md:px-6">
+        <footer class="page-in bg-brown text-white pt-10 lg:pt-20 pb-4 lg:pb-6 px-3 md:px-6">
             <div class="flex flex-col lg:flex-row-reverse lg:justify-between gap-10 lg:gap-12">
                 <div class="lg:w-[445px]">
                     <h2 class="caps mb-[9px]">"Подписка"</h2>

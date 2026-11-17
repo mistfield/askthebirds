@@ -254,7 +254,12 @@ pub fn CatalogPage() -> impl IntoView {
     }
 }
 
+/// Нет такой категории — «Страница не найдена» со статусом 404 (важно для поисковиков).
 fn not_found() -> impl IntoView {
+    #[cfg(feature = "ssr")]
+    if let Some(resp) = use_context::<leptos_axum::ResponseOptions>() {
+        resp.set_status(axum::http::StatusCode::NOT_FOUND);
+    }
     view! {
         <Title text="Страница не найдена" />
         <section class="px-3 md:px-6 py-20 md:py-[100px] min-h-[50vh] flex flex-col items-start gap-6">

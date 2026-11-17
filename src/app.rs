@@ -45,7 +45,7 @@ pub fn App() -> impl IntoView {
         <Router>
             <AnnouncementBar />
             <Header />
-            <main class="flex-1">
+            <main class="page-in flex-1">
                 <Routes fallback=NotFoundPage>
                     <Route path=path!("/") view=HomePage />
                     <Route path=path!("/catalog") view=CatalogPage />

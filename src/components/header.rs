@@ -76,7 +76,7 @@ pub fn Header() -> impl IntoView {
 
     view! {
         <header
-            class="sticky top-0 z-50 py-3 px-3 lg:px-6 flex items-center gap-6 transition-colors duration-300"
+            class="page-in sticky top-0 z-50 py-3 px-3 lg:px-6 flex items-center gap-6 transition-colors duration-300"
             class:bg-white=solid
             on:mouseenter=move |_| hovering.set(true)
             on:mouseleave=move |_| {

@@ -22,7 +22,7 @@ pub fn AnnouncementBar() -> impl IntoView {
     });
 
     view! {
-        <div class="bg-brown text-white h-8 overflow-hidden relative">
+        <div class="page-in bg-brown text-white h-8 overflow-hidden relative">
             {MESSAGES
                 .iter()
                 .enumerate()
