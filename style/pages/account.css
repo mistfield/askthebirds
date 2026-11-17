@@ -1,1 +1,4 @@
 /* Стили только для страницы «account» (src/pages/account.rs). Общие — в style/tailwind.css. */
+
+/* у них вход и аккаунт — на фоне «овсяное молоко» на всю страницу: красим <main>, пока в нём наша страница */
+main:has(> .acct) { background-color: var(--color-oatmilk); }
