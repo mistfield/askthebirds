@@ -1,1 +1,42 @@
 /* Стили только для страницы «product» (src/pages/product.rs). Общие — в style/tailwind.css. */
+
+/* на странице товара нет фото под шапкой, поэтому логотип виден сразу */
+body:has(#pdp) header > a[href="/"] { opacity: 1; }
+
+/* Общая анимация появления (tailwind.css) держит на body filter: blur(0px) и после конца — из-за этого
+   «fixed»-слои (шторка корзины, полноэкранный просмотр) считаются от body, а не от экрана, и появляется
+   горизонтальная прокрутка. На этой странице после анимации фильтр снимаем. Правильнее — поправить в tailwind.css. */
+body:has(#pdp) { animation-fill-mode: backwards; }
+
+/* наведение на кнопки в карточке товара — коричневое, как у них */
+.btn-brown:hover { background-color: var(--color-brown); border-color: var(--color-brown); color: #fff; }
+
+/* правая колонка всплывает при загрузке: 20px, 1 с, вторая строка блока — через 0,1 с */
+@keyframes rise { from { opacity: 0; transform: translateY(20px); } }
+.rise { animation: rise 1s cubic-bezier(.25,.46,.45,.94) both; }
+.rise-2 { animation-delay: .1s; }
+
+/* галерея на телефоне и планшете: соседнее фото размыто и прозрачно */
+@media (max-width: 1023.98px) {
+  .gal-slide { transition: filter .5s, opacity .5s; }
+  .gal-slide:not(.active) { filter: blur(10px); opacity: 0; }
+}
+
+/* раскрывающиеся блоки: плавная высота 0,25 с; стрелка сменяется минусом */
+.acc-body { overflow: hidden; transition: height .25s cubic-bezier(.4,0,.2,1); }
+.ic-chev, .ic-minus { display: block; transition: transform .15s ease-out, opacity .15s ease-out; }
+.ic-minus { position: absolute; inset: 0; transform: rotate(180deg); opacity: 0; }
+[aria-expanded="true"] .ic-chev { transform: rotate(180deg); opacity: 0; }
+[aria-expanded="true"] .ic-minus { transform: none; opacity: 1; }
+
+/* лента без полосы прокрутки («Почему это безопасно» на телефоне) */
+.hide-scroll { scrollbar-width: none; }
+.hide-scroll::-webkit-scrollbar { display: none; }
+
+/* «Вам может понравиться»: слова заголовка выезжают снизу, карточки проявляются из размытия */
+.word { display: inline-block; overflow: hidden; vertical-align: bottom; }
+.word > span { display: inline-block; transform: translateY(100%); opacity: 0; transition: transform 1s cubic-bezier(.215,.61,.355,1), opacity 1s cubic-bezier(.215,.61,.355,1); }
+.also-btn, .also-card { opacity: 0; transition: transform 1s cubic-bezier(.215,.61,.355,1), opacity 1s cubic-bezier(.215,.61,.355,1), filter 1s cubic-bezier(.215,.61,.355,1); }
+.also-btn { transform: translateY(50%); transition-delay: .25s; }
+.also-card { transform: translateY(50px); filter: blur(4px); }
+#also.in .word > span, #also.in .also-btn, #also.in .also-card { transform: none; opacity: 1; filter: none; }
