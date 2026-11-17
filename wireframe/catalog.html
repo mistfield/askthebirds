@@ -14,7 +14,8 @@
     /* Inter крупнее Founders Grotesk при том же кегле — выравниваем по высоте заглавных (у них 0.63) */
     html { font-size-adjust: cap-height 0.63; }
     @theme {
-      --color-brown: #696159;       /* плашка и подвал, как у них */
+      --color-leaf: #5b6450;        /* «Листва»: плашка, подвал, кнопки в баннерах */
+      --color-leaf-light: #eef0e6;  /* светлый: баннер cookies, выделенные блоки */
       --color-ph: #e7e5e2;          /* заглушка под фото */
       --color-ph-dark: #b9b4ae;     /* заглушка под видео (на ней белый текст) */
       --color-ph-text: #8f8983;
@@ -44,7 +45,7 @@
     /* фирменная полоса прокрутки: 10px, белая дорожка, коричневый ползунок, чёрный при наведении */
     ::-webkit-scrollbar { width: 10px; }
     ::-webkit-scrollbar-track { background: #fff; }
-    ::-webkit-scrollbar-thumb { background: #696159; border-left: 1px solid #fff; transition: background .15s; }
+    ::-webkit-scrollbar-thumb { background: #5b6450; border-left: 1px solid #fff; transition: background .15s; }
     ::-webkit-scrollbar-thumb:hover { background: #000; }
     /* тонкая стрелка-уголок у пунктов с меню, поворачивается при открытии */
     .chev { display: inline-block; width: 7px; height: 7px; border-right: 1px solid currentColor; border-bottom: 1px solid currentColor; transform: translateY(-3px) rotate(45deg); margin-left: 6px; transition: transform .2s; }
@@ -88,7 +89,7 @@
 <body class="loading bg-white text-black font-sans antialiased flex flex-col min-h-screen">
 
   <!-- 1. Плашка: 32px, сменяющиеся сообщения -->
-  <div class="bg-brown text-white h-8 overflow-hidden relative">
+  <div class="bg-leaf text-white h-8 overflow-hidden relative">
     <div class="ticker absolute inset-0">
       <a href="#" class="absolute inset-0 flex items-center justify-center text-[12px] uppercase tracking-[0.01em] underline underline-offset-2">Сообщение 1: новость</a>
       <a href="#" class="absolute inset-0 flex items-center justify-center text-[12px] uppercase tracking-[0.01em] underline underline-offset-2 translate-y-full opacity-0">Сообщение 2: −10% на первый заказ за подписку</a>
@@ -169,7 +170,7 @@
       <div class="flex justify-between border-t border-neutral-200 pt-4 mb-4 text-[12px] uppercase">
         <span>Доставка</span><span>Рассчитывается при оформлении</span>
       </div>
-      <button disabled class="w-full h-10 bg-brown/20 text-white text-[12px] uppercase">Оформить заказ · 0 ₽</button>
+      <button disabled class="w-full h-10 bg-leaf/20 text-white text-[12px] uppercase">Оформить заказ · 0 ₽</button>
     </div>
   </aside>
 
@@ -213,13 +214,13 @@
   </div>
 
   <!-- Баннер cookies: внизу на всю ширину -->
-  <div id="cookies" class="fixed bottom-0 inset-x-0 z-[75] hidden bg-[#efe9e3] px-3 lg:px-6 py-5">
+  <div id="cookies" class="fixed bottom-0 inset-x-0 z-[75] hidden bg-leaf-light px-3 lg:px-6 py-5">
     <h2 class="text-[14px] font-medium mb-2">Этот сайт использует cookies</h2>
     <p class="text-[12px] mb-4">Мы используем cookies, чтобы сайт работал лучше.</p>
     <div class="flex flex-wrap gap-2">
-      <button class="js-cookie bg-brown text-white text-[12px] uppercase px-3 py-1.5">Разрешить все</button>
-      <button class="js-cookie bg-brown text-white text-[12px] uppercase px-3 py-1.5">Только необходимые</button>
-      <button class="bg-brown text-white text-[12px] uppercase px-3 py-1.5">Настройки</button>
+      <button class="js-cookie bg-leaf text-white text-[12px] uppercase px-3 py-1.5">Разрешить все</button>
+      <button class="js-cookie bg-leaf text-white text-[12px] uppercase px-3 py-1.5">Только необходимые</button>
+      <button class="bg-leaf text-white text-[12px] uppercase px-3 py-1.5">Настройки</button>
     </div>
   </div>
 
@@ -245,7 +246,7 @@
     </section>
 
     <!-- 4. Вкладки категорий слева, сортировка и фильтры справа. Отступы 40/40 (на телефоне 32/32), сверху линия -->
-    <section id="bar" class="border-t border-brown/20 py-8 md:py-10">
+    <section id="bar" class="border-t border-leaf/20 py-8 md:py-10">
       <div class="px-3 md:px-6 flex flex-col lg:flex-row lg:items-center justify-between gap-y-10 gap-6">
         <ul class="flex gap-4 overflow-x-auto hide-scroll p-[3px] -mx-[3px] w-full">
           <li class="shrink-0"><a href="catalog.html" class="inline-block nav-text pb-2 border-b border-transparent hover:border-current">Все товары</a></li>
@@ -293,7 +294,7 @@
               <div class="ph w-full h-full">Фото</div>
               <div class="ph !bg-[#d6d2cd] absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-300 ease-out">Фото 2 (при наведении)</div>
               <span class="badge absolute top-[10px] md:top-[24px] left-[10px] md:left-[24px]">Новинка</span>
-          <button type="button" aria-label="В корзину" class="js-add absolute bottom-[10px] md:bottom-[24px] right-[10px] md:right-[24px] size-[30px] md:size-[35px] border border-current flex items-center justify-center opacity-0 translate-x-full group-hover:translate-x-0 group-hover:opacity-100 focus:opacity-100 focus:translate-x-0 z-[2] hover:bg-brown hover:text-white transition duration-300 ease-out"><svg aria-hidden="true" width="9" height="9" fill="none" viewBox="0 0 9 9"><path stroke="currentColor" d="M4.43.27v8"/><path stroke="currentColor" d="M8.5 4.2h-8"/></svg></button>
+          <button type="button" aria-label="В корзину" class="js-add absolute bottom-[10px] md:bottom-[24px] right-[10px] md:right-[24px] size-[30px] md:size-[35px] border border-current flex items-center justify-center opacity-0 translate-x-full group-hover:translate-x-0 group-hover:opacity-100 focus:opacity-100 focus:translate-x-0 z-[2] hover:bg-leaf hover:text-white transition duration-300 ease-out"><svg aria-hidden="true" width="9" height="9" fill="none" viewBox="0 0 9 9"><path stroke="currentColor" d="M4.43.27v8"/><path stroke="currentColor" d="M8.5 4.2h-8"/></svg></button>
             </div>
             <div class="flex-1 pt-4 px-1 md:px-4 flex flex-col gap-1 text-center">
               <p class="h6 uppercase"><a href="#" class="box-link">Название</a></p>
@@ -308,7 +309,7 @@
               <div class="ph w-full h-full">Фото</div>
               <div class="ph !bg-[#d6d2cd] absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-300 ease-out">Фото 2 (при наведении)</div>
               <span class="badge absolute top-[10px] md:top-[24px] left-[10px] md:left-[24px]">Новинка</span>
-          <button type="button" aria-label="В корзину" class="js-add absolute bottom-[10px] md:bottom-[24px] right-[10px] md:right-[24px] size-[30px] md:size-[35px] border border-current flex items-center justify-center opacity-0 translate-x-full group-hover:translate-x-0 group-hover:opacity-100 focus:opacity-100 focus:translate-x-0 z-[2] hover:bg-brown hover:text-white transition duration-300 ease-out"><svg aria-hidden="true" width="9" height="9" fill="none" viewBox="0 0 9 9"><path stroke="currentColor" d="M4.43.27v8"/><path stroke="currentColor" d="M8.5 4.2h-8"/></svg></button>
+          <button type="button" aria-label="В корзину" class="js-add absolute bottom-[10px] md:bottom-[24px] right-[10px] md:right-[24px] size-[30px] md:size-[35px] border border-current flex items-center justify-center opacity-0 translate-x-full group-hover:translate-x-0 group-hover:opacity-100 focus:opacity-100 focus:translate-x-0 z-[2] hover:bg-leaf hover:text-white transition duration-300 ease-out"><svg aria-hidden="true" width="9" height="9" fill="none" viewBox="0 0 9 9"><path stroke="currentColor" d="M4.43.27v8"/><path stroke="currentColor" d="M8.5 4.2h-8"/></svg></button>
             </div>
             <div class="flex-1 pt-4 px-1 md:px-4 flex flex-col gap-1 text-center">
               <p class="h6 uppercase"><a href="#" class="box-link">Название</a></p>
@@ -323,7 +324,7 @@
               <div class="ph w-full h-full">Фото</div>
               <div class="ph !bg-[#d6d2cd] absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-300 ease-out">Фото 2 (при наведении)</div>
               <span class="badge absolute top-[10px] md:top-[24px] left-[10px] md:left-[24px]">Хит продаж</span>
-          <button type="button" aria-label="В корзину" class="js-add absolute bottom-[10px] md:bottom-[24px] right-[10px] md:right-[24px] size-[30px] md:size-[35px] border border-current flex items-center justify-center opacity-0 translate-x-full group-hover:translate-x-0 group-hover:opacity-100 focus:opacity-100 focus:translate-x-0 z-[2] hover:bg-brown hover:text-white transition duration-300 ease-out"><svg aria-hidden="true" width="9" height="9" fill="none" viewBox="0 0 9 9"><path stroke="currentColor" d="M4.43.27v8"/><path stroke="currentColor" d="M8.5 4.2h-8"/></svg></button>
+          <button type="button" aria-label="В корзину" class="js-add absolute bottom-[10px] md:bottom-[24px] right-[10px] md:right-[24px] size-[30px] md:size-[35px] border border-current flex items-center justify-center opacity-0 translate-x-full group-hover:translate-x-0 group-hover:opacity-100 focus:opacity-100 focus:translate-x-0 z-[2] hover:bg-leaf hover:text-white transition duration-300 ease-out"><svg aria-hidden="true" width="9" height="9" fill="none" viewBox="0 0 9 9"><path stroke="currentColor" d="M4.43.27v8"/><path stroke="currentColor" d="M8.5 4.2h-8"/></svg></button>
             </div>
             <div class="flex-1 pt-4 px-1 md:px-4 flex flex-col gap-1 text-center">
               <p class="h6 uppercase"><a href="#" class="box-link">Название</a></p>
@@ -338,7 +339,7 @@
               <div class="ph w-full h-full">Фото</div>
               <div class="ph !bg-[#d6d2cd] absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-300 ease-out">Фото 2 (при наведении)</div>
               
-          <button type="button" aria-label="В корзину" class="js-add absolute bottom-[10px] md:bottom-[24px] right-[10px] md:right-[24px] size-[30px] md:size-[35px] border border-current flex items-center justify-center opacity-0 translate-x-full group-hover:translate-x-0 group-hover:opacity-100 focus:opacity-100 focus:translate-x-0 z-[2] hover:bg-brown hover:text-white transition duration-300 ease-out"><svg aria-hidden="true" width="9" height="9" fill="none" viewBox="0 0 9 9"><path stroke="currentColor" d="M4.43.27v8"/><path stroke="currentColor" d="M8.5 4.2h-8"/></svg></button>
+          <button type="button" aria-label="В корзину" class="js-add absolute bottom-[10px] md:bottom-[24px] right-[10px] md:right-[24px] size-[30px] md:size-[35px] border border-current flex items-center justify-center opacity-0 translate-x-full group-hover:translate-x-0 group-hover:opacity-100 focus:opacity-100 focus:translate-x-0 z-[2] hover:bg-leaf hover:text-white transition duration-300 ease-out"><svg aria-hidden="true" width="9" height="9" fill="none" viewBox="0 0 9 9"><path stroke="currentColor" d="M4.43.27v8"/><path stroke="currentColor" d="M8.5 4.2h-8"/></svg></button>
             </div>
             <div class="flex-1 pt-4 px-1 md:px-4 flex flex-col gap-1 text-center">
               <p class="h6 uppercase"><a href="#" class="box-link">Название</a></p>
@@ -353,7 +354,7 @@
               <div class="ph w-full h-full">Фото</div>
               <div class="ph !bg-[#d6d2cd] absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-300 ease-out">Фото 2 (при наведении)</div>
               <span class="badge absolute top-[10px] md:top-[24px] left-[10px] md:left-[24px]">Хит продаж</span>
-          <button type="button" aria-label="В корзину" class="js-add absolute bottom-[10px] md:bottom-[24px] right-[10px] md:right-[24px] size-[30px] md:size-[35px] border border-current flex items-center justify-center opacity-0 translate-x-full group-hover:translate-x-0 group-hover:opacity-100 focus:opacity-100 focus:translate-x-0 z-[2] hover:bg-brown hover:text-white transition duration-300 ease-out"><svg aria-hidden="true" width="9" height="9" fill="none" viewBox="0 0 9 9"><path stroke="currentColor" d="M4.43.27v8"/><path stroke="currentColor" d="M8.5 4.2h-8"/></svg></button>
+          <button type="button" aria-label="В корзину" class="js-add absolute bottom-[10px] md:bottom-[24px] right-[10px] md:right-[24px] size-[30px] md:size-[35px] border border-current flex items-center justify-center opacity-0 translate-x-full group-hover:translate-x-0 group-hover:opacity-100 focus:opacity-100 focus:translate-x-0 z-[2] hover:bg-leaf hover:text-white transition duration-300 ease-out"><svg aria-hidden="true" width="9" height="9" fill="none" viewBox="0 0 9 9"><path stroke="currentColor" d="M4.43.27v8"/><path stroke="currentColor" d="M8.5 4.2h-8"/></svg></button>
             </div>
             <div class="flex-1 pt-4 px-1 md:px-4 flex flex-col gap-1 text-center">
               <p class="h6 uppercase"><a href="#" class="box-link">Название</a></p>
@@ -368,7 +369,7 @@
               <div class="ph w-full h-full">Фото</div>
               <div class="ph !bg-[#d6d2cd] absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-300 ease-out">Фото 2 (при наведении)</div>
               
-          <button type="button" aria-label="В корзину" class="js-add absolute bottom-[10px] md:bottom-[24px] right-[10px] md:right-[24px] size-[30px] md:size-[35px] border border-current flex items-center justify-center opacity-0 translate-x-full group-hover:translate-x-0 group-hover:opacity-100 focus:opacity-100 focus:translate-x-0 z-[2] hover:bg-brown hover:text-white transition duration-300 ease-out"><svg aria-hidden="true" width="9" height="9" fill="none" viewBox="0 0 9 9"><path stroke="currentColor" d="M4.43.27v8"/><path stroke="currentColor" d="M8.5 4.2h-8"/></svg></button>
+          <button type="button" aria-label="В корзину" class="js-add absolute bottom-[10px] md:bottom-[24px] right-[10px] md:right-[24px] size-[30px] md:size-[35px] border border-current flex items-center justify-center opacity-0 translate-x-full group-hover:translate-x-0 group-hover:opacity-100 focus:opacity-100 focus:translate-x-0 z-[2] hover:bg-leaf hover:text-white transition duration-300 ease-out"><svg aria-hidden="true" width="9" height="9" fill="none" viewBox="0 0 9 9"><path stroke="currentColor" d="M4.43.27v8"/><path stroke="currentColor" d="M8.5 4.2h-8"/></svg></button>
             </div>
             <div class="flex-1 pt-4 px-1 md:px-4 flex flex-col gap-1 text-center">
               <p class="h6 uppercase"><a href="#" class="box-link">Название</a></p>
@@ -383,7 +384,7 @@
               <div class="ph w-full h-full">Фото</div>
               <div class="ph !bg-[#d6d2cd] absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-300 ease-out">Фото 2 (при наведении)</div>
               
-          <button type="button" aria-label="В корзину" class="js-add absolute bottom-[10px] md:bottom-[24px] right-[10px] md:right-[24px] size-[30px] md:size-[35px] border border-current flex items-center justify-center opacity-0 translate-x-full group-hover:translate-x-0 group-hover:opacity-100 focus:opacity-100 focus:translate-x-0 z-[2] hover:bg-brown hover:text-white transition duration-300 ease-out"><svg aria-hidden="true" width="9" height="9" fill="none" viewBox="0 0 9 9"><path stroke="currentColor" d="M4.43.27v8"/><path stroke="currentColor" d="M8.5 4.2h-8"/></svg></button>
+          <button type="button" aria-label="В корзину" class="js-add absolute bottom-[10px] md:bottom-[24px] right-[10px] md:right-[24px] size-[30px] md:size-[35px] border border-current flex items-center justify-center opacity-0 translate-x-full group-hover:translate-x-0 group-hover:opacity-100 focus:opacity-100 focus:translate-x-0 z-[2] hover:bg-leaf hover:text-white transition duration-300 ease-out"><svg aria-hidden="true" width="9" height="9" fill="none" viewBox="0 0 9 9"><path stroke="currentColor" d="M4.43.27v8"/><path stroke="currentColor" d="M8.5 4.2h-8"/></svg></button>
             </div>
             <div class="flex-1 pt-4 px-1 md:px-4 flex flex-col gap-1 text-center">
               <p class="h6 uppercase"><a href="#" class="box-link">Название</a></p>
@@ -398,7 +399,7 @@
               <div class="ph w-full h-full">Фото</div>
               <div class="ph !bg-[#d6d2cd] absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-300 ease-out">Фото 2 (при наведении)</div>
               
-          <button type="button" aria-label="В корзину" class="js-add absolute bottom-[10px] md:bottom-[24px] right-[10px] md:right-[24px] size-[30px] md:size-[35px] border border-current flex items-center justify-center opacity-0 translate-x-full group-hover:translate-x-0 group-hover:opacity-100 focus:opacity-100 focus:translate-x-0 z-[2] hover:bg-brown hover:text-white transition duration-300 ease-out"><svg aria-hidden="true" width="9" height="9" fill="none" viewBox="0 0 9 9"><path stroke="currentColor" d="M4.43.27v8"/><path stroke="currentColor" d="M8.5 4.2h-8"/></svg></button>
+          <button type="button" aria-label="В корзину" class="js-add absolute bottom-[10px] md:bottom-[24px] right-[10px] md:right-[24px] size-[30px] md:size-[35px] border border-current flex items-center justify-center opacity-0 translate-x-full group-hover:translate-x-0 group-hover:opacity-100 focus:opacity-100 focus:translate-x-0 z-[2] hover:bg-leaf hover:text-white transition duration-300 ease-out"><svg aria-hidden="true" width="9" height="9" fill="none" viewBox="0 0 9 9"><path stroke="currentColor" d="M4.43.27v8"/><path stroke="currentColor" d="M8.5 4.2h-8"/></svg></button>
             </div>
             <div class="flex-1 pt-4 px-1 md:px-4 flex flex-col gap-1 text-center">
               <p class="h6 uppercase"><a href="#" class="box-link">Название</a></p>
@@ -413,7 +414,7 @@
               <div class="ph w-full h-full">Фото</div>
               <div class="ph !bg-[#d6d2cd] absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-300 ease-out">Фото 2 (при наведении)</div>
               
-          <button type="button" aria-label="В корзину" class="js-add absolute bottom-[10px] md:bottom-[24px] right-[10px] md:right-[24px] size-[30px] md:size-[35px] border border-current flex items-center justify-center opacity-0 translate-x-full group-hover:translate-x-0 group-hover:opacity-100 focus:opacity-100 focus:translate-x-0 z-[2] hover:bg-brown hover:text-white transition duration-300 ease-out"><svg aria-hidden="true" width="9" height="9" fill="none" viewBox="0 0 9 9"><path stroke="currentColor" d="M4.43.27v8"/><path stroke="currentColor" d="M8.5 4.2h-8"/></svg></button>
+          <button type="button" aria-label="В корзину" class="js-add absolute bottom-[10px] md:bottom-[24px] right-[10px] md:right-[24px] size-[30px] md:size-[35px] border border-current flex items-center justify-center opacity-0 translate-x-full group-hover:translate-x-0 group-hover:opacity-100 focus:opacity-100 focus:translate-x-0 z-[2] hover:bg-leaf hover:text-white transition duration-300 ease-out"><svg aria-hidden="true" width="9" height="9" fill="none" viewBox="0 0 9 9"><path stroke="currentColor" d="M4.43.27v8"/><path stroke="currentColor" d="M8.5 4.2h-8"/></svg></button>
             </div>
             <div class="flex-1 pt-4 px-1 md:px-4 flex flex-col gap-1 text-center">
               <p class="h6 uppercase"><a href="#" class="box-link">Название</a></p>
@@ -428,7 +429,7 @@
               <div class="ph w-full h-full">Фото</div>
               <div class="ph !bg-[#d6d2cd] absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-300 ease-out">Фото 2 (при наведении)</div>
               
-          <button type="button" aria-label="В корзину" class="js-add absolute bottom-[10px] md:bottom-[24px] right-[10px] md:right-[24px] size-[30px] md:size-[35px] border border-current flex items-center justify-center opacity-0 translate-x-full group-hover:translate-x-0 group-hover:opacity-100 focus:opacity-100 focus:translate-x-0 z-[2] hover:bg-brown hover:text-white transition duration-300 ease-out"><svg aria-hidden="true" width="9" height="9" fill="none" viewBox="0 0 9 9"><path stroke="currentColor" d="M4.43.27v8"/><path stroke="currentColor" d="M8.5 4.2h-8"/></svg></button>
+          <button type="button" aria-label="В корзину" class="js-add absolute bottom-[10px] md:bottom-[24px] right-[10px] md:right-[24px] size-[30px] md:size-[35px] border border-current flex items-center justify-center opacity-0 translate-x-full group-hover:translate-x-0 group-hover:opacity-100 focus:opacity-100 focus:translate-x-0 z-[2] hover:bg-leaf hover:text-white transition duration-300 ease-out"><svg aria-hidden="true" width="9" height="9" fill="none" viewBox="0 0 9 9"><path stroke="currentColor" d="M4.43.27v8"/><path stroke="currentColor" d="M8.5 4.2h-8"/></svg></button>
             </div>
             <div class="flex-1 pt-4 px-1 md:px-4 flex flex-col gap-1 text-center">
               <p class="h6 uppercase"><a href="#" class="box-link">Название</a></p>
@@ -443,7 +444,7 @@
               <div class="ph w-full h-full">Фото</div>
               <div class="ph !bg-[#d6d2cd] absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-300 ease-out">Фото 2 (при наведении)</div>
               
-          <button type="button" aria-label="В корзину" class="js-add absolute bottom-[10px] md:bottom-[24px] right-[10px] md:right-[24px] size-[30px] md:size-[35px] border border-current flex items-center justify-center opacity-0 translate-x-full group-hover:translate-x-0 group-hover:opacity-100 focus:opacity-100 focus:translate-x-0 z-[2] hover:bg-brown hover:text-white transition duration-300 ease-out"><svg aria-hidden="true" width="9" height="9" fill="none" viewBox="0 0 9 9"><path stroke="currentColor" d="M4.43.27v8"/><path stroke="currentColor" d="M8.5 4.2h-8"/></svg></button>
+          <button type="button" aria-label="В корзину" class="js-add absolute bottom-[10px] md:bottom-[24px] right-[10px] md:right-[24px] size-[30px] md:size-[35px] border border-current flex items-center justify-center opacity-0 translate-x-full group-hover:translate-x-0 group-hover:opacity-100 focus:opacity-100 focus:translate-x-0 z-[2] hover:bg-leaf hover:text-white transition duration-300 ease-out"><svg aria-hidden="true" width="9" height="9" fill="none" viewBox="0 0 9 9"><path stroke="currentColor" d="M4.43.27v8"/><path stroke="currentColor" d="M8.5 4.2h-8"/></svg></button>
             </div>
             <div class="flex-1 pt-4 px-1 md:px-4 flex flex-col gap-1 text-center">
               <p class="h6 uppercase"><a href="#" class="box-link">Название</a></p>
@@ -458,7 +459,7 @@
               <div class="ph w-full h-full">Фото</div>
               <div class="ph !bg-[#d6d2cd] absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-300 ease-out">Фото 2 (при наведении)</div>
               
-          <button type="button" aria-label="В корзину" class="js-add absolute bottom-[10px] md:bottom-[24px] right-[10px] md:right-[24px] size-[30px] md:size-[35px] border border-current flex items-center justify-center opacity-0 translate-x-full group-hover:translate-x-0 group-hover:opacity-100 focus:opacity-100 focus:translate-x-0 z-[2] hover:bg-brown hover:text-white transition duration-300 ease-out"><svg aria-hidden="true" width="9" height="9" fill="none" viewBox="0 0 9 9"><path stroke="currentColor" d="M4.43.27v8"/><path stroke="currentColor" d="M8.5 4.2h-8"/></svg></button>
+          <button type="button" aria-label="В корзину" class="js-add absolute bottom-[10px] md:bottom-[24px] right-[10px] md:right-[24px] size-[30px] md:size-[35px] border border-current flex items-center justify-center opacity-0 translate-x-full group-hover:translate-x-0 group-hover:opacity-100 focus:opacity-100 focus:translate-x-0 z-[2] hover:bg-leaf hover:text-white transition duration-300 ease-out"><svg aria-hidden="true" width="9" height="9" fill="none" viewBox="0 0 9 9"><path stroke="currentColor" d="M4.43.27v8"/><path stroke="currentColor" d="M8.5 4.2h-8"/></svg></button>
             </div>
             <div class="flex-1 pt-4 px-1 md:px-4 flex flex-col gap-1 text-center">
               <p class="h6 uppercase"><a href="#" class="box-link">Название</a></p>
@@ -473,7 +474,7 @@
               <div class="ph w-full h-full">Фото</div>
               <div class="ph !bg-[#d6d2cd] absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-300 ease-out">Фото 2 (при наведении)</div>
               
-          <button type="button" aria-label="В корзину" class="js-add absolute bottom-[10px] md:bottom-[24px] right-[10px] md:right-[24px] size-[30px] md:size-[35px] border border-current flex items-center justify-center opacity-0 translate-x-full group-hover:translate-x-0 group-hover:opacity-100 focus:opacity-100 focus:translate-x-0 z-[2] hover:bg-brown hover:text-white transition duration-300 ease-out"><svg aria-hidden="true" width="9" height="9" fill="none" viewBox="0 0 9 9"><path stroke="currentColor" d="M4.43.27v8"/><path stroke="currentColor" d="M8.5 4.2h-8"/></svg></button>
+          <button type="button" aria-label="В корзину" class="js-add absolute bottom-[10px] md:bottom-[24px] right-[10px] md:right-[24px] size-[30px] md:size-[35px] border border-current flex items-center justify-center opacity-0 translate-x-full group-hover:translate-x-0 group-hover:opacity-100 focus:opacity-100 focus:translate-x-0 z-[2] hover:bg-leaf hover:text-white transition duration-300 ease-out"><svg aria-hidden="true" width="9" height="9" fill="none" viewBox="0 0 9 9"><path stroke="currentColor" d="M4.43.27v8"/><path stroke="currentColor" d="M8.5 4.2h-8"/></svg></button>
             </div>
             <div class="flex-1 pt-4 px-1 md:px-4 flex flex-col gap-1 text-center">
               <p class="h6 uppercase"><a href="#" class="box-link">Название</a></p>
@@ -502,7 +503,7 @@
               <div class="ph w-full h-full">Фото</div>
               <div class="ph !bg-[#d6d2cd] absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-300 ease-out">Фото 2 (при наведении)</div>
               
-          <button type="button" aria-label="В корзину" class="js-add absolute bottom-[10px] md:bottom-[24px] right-[10px] md:right-[24px] size-[30px] md:size-[35px] border border-current flex items-center justify-center opacity-0 translate-x-full group-hover:translate-x-0 group-hover:opacity-100 focus:opacity-100 focus:translate-x-0 z-[2] hover:bg-brown hover:text-white transition duration-300 ease-out"><svg aria-hidden="true" width="9" height="9" fill="none" viewBox="0 0 9 9"><path stroke="currentColor" d="M4.43.27v8"/><path stroke="currentColor" d="M8.5 4.2h-8"/></svg></button>
+          <button type="button" aria-label="В корзину" class="js-add absolute bottom-[10px] md:bottom-[24px] right-[10px] md:right-[24px] size-[30px] md:size-[35px] border border-current flex items-center justify-center opacity-0 translate-x-full group-hover:translate-x-0 group-hover:opacity-100 focus:opacity-100 focus:translate-x-0 z-[2] hover:bg-leaf hover:text-white transition duration-300 ease-out"><svg aria-hidden="true" width="9" height="9" fill="none" viewBox="0 0 9 9"><path stroke="currentColor" d="M4.43.27v8"/><path stroke="currentColor" d="M8.5 4.2h-8"/></svg></button>
             </div>
             <div class="flex-1 pt-4 px-1 md:px-4 flex flex-col gap-1 text-center">
               <p class="h6 uppercase"><a href="#" class="box-link">Название</a></p>
@@ -517,7 +518,7 @@
               <div class="ph w-full h-full">Фото</div>
               <div class="ph !bg-[#d6d2cd] absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-300 ease-out">Фото 2 (при наведении)</div>
               
-          <button type="button" aria-label="В корзину" class="js-add absolute bottom-[10px] md:bottom-[24px] right-[10px] md:right-[24px] size-[30px] md:size-[35px] border border-current flex items-center justify-center opacity-0 translate-x-full group-hover:translate-x-0 group-hover:opacity-100 focus:opacity-100 focus:translate-x-0 z-[2] hover:bg-brown hover:text-white transition duration-300 ease-out"><svg aria-hidden="true" width="9" height="9" fill="none" viewBox="0 0 9 9"><path stroke="currentColor" d="M4.43.27v8"/><path stroke="currentColor" d="M8.5 4.2h-8"/></svg></button>
+          <button type="button" aria-label="В корзину" class="js-add absolute bottom-[10px] md:bottom-[24px] right-[10px] md:right-[24px] size-[30px] md:size-[35px] border border-current flex items-center justify-center opacity-0 translate-x-full group-hover:translate-x-0 group-hover:opacity-100 focus:opacity-100 focus:translate-x-0 z-[2] hover:bg-leaf hover:text-white transition duration-300 ease-out"><svg aria-hidden="true" width="9" height="9" fill="none" viewBox="0 0 9 9"><path stroke="currentColor" d="M4.43.27v8"/><path stroke="currentColor" d="M8.5 4.2h-8"/></svg></button>
             </div>
             <div class="flex-1 pt-4 px-1 md:px-4 flex flex-col gap-1 text-center">
               <p class="h6 uppercase"><a href="#" class="box-link">Название</a></p>
@@ -536,7 +537,7 @@
             <svg width="10" height="10" viewBox="0 0 12 12" stroke="currentColor"><path d="M1 1l10 10M11 1L1 11"/></svg>
           </button>
           <form class="flex flex-col h-full md:h-auto" onsubmit="return false">
-          <div class="fgroup w-full border-b border-brown/20 py-6">
+          <div class="fgroup w-full border-b border-leaf/20 py-6">
             <button type="button" class="caps font-medium text-black/60 w-full flex items-center justify-between gap-6" aria-expanded="true">
               По типу
               <span class="relative"><span class="plus block opacity-0"><svg aria-hidden="true" width="9" height="9" fill="none" viewBox="0 0 9 9"><path stroke="currentColor" d="M4.43.27v8"/><path stroke="currentColor" d="M8.5 4.2h-8"/></svg></span><span class="minus absolute inset-0 m-auto block"><svg aria-hidden="true" width="9" height="8" fill="none" viewBox="0 0 9 8"><path stroke="currentColor" d="M8.85 3.93h-8"/></svg></span></span>
@@ -600,7 +601,7 @@
               </ul>
             </div></div>
           </div>
-          <div class="fgroup w-full border-b border-brown/20 py-6">
+          <div class="fgroup w-full border-b border-leaf/20 py-6">
             <button type="button" class="caps font-medium text-black/60 w-full flex items-center justify-between gap-6" aria-expanded="true">
               По размеру попугая
               <span class="relative"><span class="plus block opacity-0"><svg aria-hidden="true" width="9" height="9" fill="none" viewBox="0 0 9 9"><path stroke="currentColor" d="M4.43.27v8"/><path stroke="currentColor" d="M8.5 4.2h-8"/></svg></span><span class="minus absolute inset-0 m-auto block"><svg aria-hidden="true" width="9" height="8" fill="none" viewBox="0 0 9 8"><path stroke="currentColor" d="M8.85 3.93h-8"/></svg></span></span>
@@ -628,7 +629,7 @@
               </ul>
             </div></div>
           </div>
-          <div class="fgroup w-full border-b border-brown/20 py-6">
+          <div class="fgroup w-full border-b border-leaf/20 py-6">
             <button type="button" class="caps font-medium text-black/60 w-full flex items-center justify-between gap-6" aria-expanded="true">
               По материалу
               <span class="relative"><span class="plus block opacity-0"><svg aria-hidden="true" width="9" height="9" fill="none" viewBox="0 0 9 9"><path stroke="currentColor" d="M4.43.27v8"/><path stroke="currentColor" d="M8.5 4.2h-8"/></svg></span><span class="minus absolute inset-0 m-auto block"><svg aria-hidden="true" width="9" height="8" fill="none" viewBox="0 0 9 8"><path stroke="currentColor" d="M8.85 3.93h-8"/></svg></span></span>
@@ -650,7 +651,7 @@
               </ul>
             </div></div>
           </div>
-            <div class="md:hidden sticky mt-auto bottom-0 p-3 w-full bg-white border-t border-brown/20">
+            <div class="md:hidden sticky mt-auto bottom-0 p-3 w-full bg-white border-t border-leaf/20">
               <button type="button" id="filters-apply" class="btn w-full text-center">Применить</button>
             </div>
           </form>
@@ -676,7 +677,7 @@
 
   <!-- 6. Подвал. Компьютер: колонки слева через 80px, подписка справа 445px, юр. строка внизу.
        Телефон: подписка сверху, ниже сетка 2×2, юр. ссылки — колонкой рядом с «О нас». -->
-  <footer class="bg-brown text-white pt-10 lg:pt-20 pb-4 lg:pb-6 px-3 md:px-6">
+  <footer class="bg-leaf text-white pt-10 lg:pt-20 pb-4 lg:pb-6 px-3 md:px-6">
     <div class="flex flex-col lg:flex-row-reverse lg:justify-between gap-10 lg:gap-12">
       <div class="lg:w-[445px]">
         <h2 class="caps mb-[9px]">Подписка</h2>

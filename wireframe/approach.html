@@ -14,7 +14,8 @@
     /* Inter крупнее Founders Grotesk при том же кегле — выравниваем по высоте заглавных (у них 0.63) */
     html { font-size-adjust: cap-height 0.63; }
     @theme {
-      --color-brown: #696159;       /* плашка и подвал, как у них */
+      --color-leaf: #5b6450;        /* «Листва»: плашка, подвал, кнопки в баннерах */
+      --color-leaf-light: #eef0e6;  /* светлый: баннер cookies, выделенные блоки */
       --color-ph: #e7e5e2;          /* заглушка под фото */
       --color-ph-dark: #b9b4ae;     /* заглушка под видео (на ней белый текст) */
       --color-ph-text: #8f8983;
@@ -44,7 +45,7 @@
     /* фирменная полоса прокрутки: 10px, белая дорожка, коричневый ползунок, чёрный при наведении */
     ::-webkit-scrollbar { width: 10px; }
     ::-webkit-scrollbar-track { background: #fff; }
-    ::-webkit-scrollbar-thumb { background: #696159; border-left: 1px solid #fff; transition: background .15s; }
+    ::-webkit-scrollbar-thumb { background: #5b6450; border-left: 1px solid #fff; transition: background .15s; }
     ::-webkit-scrollbar-thumb:hover { background: #000; }
     /* тонкая стрелка-уголок у пунктов с меню, поворачивается при открытии */
     .chev { display: inline-block; width: 7px; height: 7px; border-right: 1px solid currentColor; border-bottom: 1px solid currentColor; transform: translateY(-3px) rotate(45deg); margin-left: 6px; transition: transform .2s; }
@@ -63,7 +64,7 @@
 <body class="loading bg-white text-black font-sans antialiased flex flex-col min-h-screen">
 
   <!-- 1. Плашка: 32px, сменяющиеся сообщения -->
-  <div class="bg-brown text-white h-8 overflow-hidden relative">
+  <div class="bg-leaf text-white h-8 overflow-hidden relative">
     <div class="ticker absolute inset-0">
       <a href="#" class="absolute inset-0 flex items-center justify-center text-[12px] uppercase tracking-[0.01em] underline underline-offset-2">Сообщение 1: новость</a>
       <a href="#" class="absolute inset-0 flex items-center justify-center text-[12px] uppercase tracking-[0.01em] underline underline-offset-2 translate-y-full opacity-0">Сообщение 2: −10% на первый заказ за подписку</a>
@@ -144,7 +145,7 @@
       <div class="flex justify-between border-t border-neutral-200 pt-4 mb-4 text-[12px] uppercase">
         <span>Доставка</span><span>Рассчитывается при оформлении</span>
       </div>
-      <button disabled class="w-full h-10 bg-brown/20 text-white text-[12px] uppercase">Оформить заказ · 0 ₽</button>
+      <button disabled class="w-full h-10 bg-leaf/20 text-white text-[12px] uppercase">Оформить заказ · 0 ₽</button>
     </div>
   </aside>
 
@@ -188,13 +189,13 @@
   </div>
 
   <!-- Баннер cookies: внизу на всю ширину -->
-  <div id="cookies" class="fixed bottom-0 inset-x-0 z-[75] hidden bg-[#efe9e3] px-3 lg:px-6 py-5">
+  <div id="cookies" class="fixed bottom-0 inset-x-0 z-[75] hidden bg-leaf-light px-3 lg:px-6 py-5">
     <h2 class="text-[14px] font-medium mb-2">Этот сайт использует cookies</h2>
     <p class="text-[12px] mb-4">Мы используем cookies, чтобы сайт работал лучше.</p>
     <div class="flex flex-wrap gap-2">
-      <button class="js-cookie bg-brown text-white text-[12px] uppercase px-3 py-1.5">Разрешить все</button>
-      <button class="js-cookie bg-brown text-white text-[12px] uppercase px-3 py-1.5">Только необходимые</button>
-      <button class="bg-brown text-white text-[12px] uppercase px-3 py-1.5">Настройки</button>
+      <button class="js-cookie bg-leaf text-white text-[12px] uppercase px-3 py-1.5">Разрешить все</button>
+      <button class="js-cookie bg-leaf text-white text-[12px] uppercase px-3 py-1.5">Только необходимые</button>
+      <button class="bg-leaf text-white text-[12px] uppercase px-3 py-1.5">Настройки</button>
     </div>
   </div>
 
@@ -254,7 +255,7 @@
 
   <!-- 6. Подвал. Компьютер: колонки слева через 80px, подписка справа 445px, юр. строка внизу.
        Телефон: подписка сверху, ниже сетка 2×2, юр. ссылки — колонкой рядом с «О нас». -->
-  <footer class="bg-brown text-white pt-10 lg:pt-20 pb-4 lg:pb-6 px-3 md:px-6">
+  <footer class="bg-leaf text-white pt-10 lg:pt-20 pb-4 lg:pb-6 px-3 md:px-6">
     <div class="flex flex-col lg:flex-row-reverse lg:justify-between gap-10 lg:gap-12">
       <div class="lg:w-[445px]">
         <h2 class="caps mb-[9px]">Подписка</h2>
