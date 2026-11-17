@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>askthebirds — выбор шрифтов</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500&family=Onest:wght@400;500&family=Inter+Tight:wght@400;500&family=Manrope:wght@400;500&family=Geologica:wght@400;500&family=Commissioner:wght@400;500&family=Libre+Caslon+Text:wght@400;700&family=EB+Garamond:wght@500;600&family=Cormorant+Garamond:wght@500;600&family=Newsreader:opsz,wght@6..72,500&family=Fraunces:opsz,wght@9..144,500&family=Instrument+Serif&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.1.5"></script>
+  <style type="text/tailwindcss">
+    @theme { --color-brown: #696159; --color-ph: #e7e5e2; --color-ph-dark: #b9b4ae; }
+    .caps { @apply text-[12px] uppercase tracking-[0.04em] leading-[1.3]; }
+  </style>
+</head>
+<body class="bg-white text-black antialiased" style="font-family: 'Golos Text', system-ui, sans-serif">
+
+  <div class="max-w-[1200px] mx-auto px-4 md:px-6 py-10">
+    <h1 class="text-[28px] font-medium mb-2">Выбор шрифтов</h1>
+    <p class="text-[15px] text-neutral-600 max-w-[720px] mb-10">
+      Нужно выбрать два шрифта: <b>основной</b> (меню, заголовки, текст — обязательно с кириллицей)
+      и <b>шрифт логотипа</b> «askthebirds» (только латиница, поэтому выбор шире).
+      Сначала соберите пару в примере ниже, потом сравните каждый шрифт отдельно.
+    </p>
+
+    <!-- 1. Собрать пару -->
+    <section class="mb-16">
+      <h2 class="caps text-neutral-500 mb-4">1. Соберите пару</h2>
+      <div class="flex flex-wrap gap-4 mb-4 text-[14px]">
+        <label class="flex items-center gap-2">Основной
+          <select id="pick-sans" class="border border-neutral-300 px-2 py-1"></select></label>
+        <label class="flex items-center gap-2">Логотип
+          <select id="pick-logo" class="border border-neutral-300 px-2 py-1"></select></label>
+      </div>
+      <div id="pair" class="border border-neutral-200 overflow-hidden"></div>
+    </section>
+
+    <!-- 2. Основной шрифт -->
+    <section class="mb-16">
+      <h2 class="caps text-neutral-500 mb-1">2. Основной шрифт — бесплатные, с кириллицей</h2>
+      <p class="text-[13px] text-neutral-500 mb-6">Все из Google Fonts: бесплатно для сайта и печати, без лицензий.</p>
+      <div id="sans-list" class="grid md:grid-cols-2 gap-6"></div>
+    </section>
+
+    <!-- 3. Платные -->
+    <section class="mb-16">
+      <h2 class="caps text-neutral-500 mb-4">3. Платные варианты (здесь не показаны — нужна покупка)</h2>
+      <div class="grid md:grid-cols-2 gap-6 text-[14px] leading-[1.5]">
+        <div class="border border-neutral-200 p-5">
+          <div class="text-[16px] font-medium mb-1">TT Commons Pro — TypeType (Россия)</div>
+          <p class="text-neutral-600">Очень близок по духу к их Founders Grotesk, отличная кириллица.
+            Ориентир: базовый набор (22 начертания) от $249, вся семья от $599.
+            Лицензия для сайта оплачивается один раз, цена зависит от посещаемости.</p>
+        </div>
+        <div class="border border-neutral-200 p-5">
+          <div class="text-[16px] font-medium mb-1">Suisse — Swiss Typefaces (Швейцария)</div>
+          <p class="text-neutral-600">Классический «дорогой» гротеск, кириллица есть (подтверждена у Suisse Screen).
+            Цену для сайта в открытых источниках не нашёл — нужно запросить в магазине студии.</p>
+        </div>
+      </div>
+      <p class="text-[13px] text-neutral-500 mt-4">Их собственный Founders Grotesk (студия Klim): подтверждения кириллицы не нашёл, поэтому не рассматриваем.</p>
+    </section>
+
+    <!-- 4. Логотип -->
+    <section class="mb-16">
+      <h2 class="caps text-neutral-500 mb-1">4. Шрифт логотипа</h2>
+      <p class="text-[13px] text-neutral-500 mb-6">Все бесплатные. Показан размер в шапке, крупно (как в видео-блоке) и на коричневом фоне подвала.</p>
+      <div id="logo-list" class="flex flex-col gap-6"></div>
+    </section>
+  </div>
+
+  <script>
+    const SANS = [
+      { name: 'Golos Text', note: 'Сейчас стоит в вайрфрейме. Российская разработка, спокойный и очень читаемый.' },
+      { name: 'Onest', note: 'Российский, чуть геометричнее и «моднее» Golos. Ближе всего к Founders Grotesk среди бесплатных.' },
+      { name: 'Inter Tight', note: 'Самый нейтральный, «швейцарский». Узковат — хорошо для меню ЗАГЛАВНЫМИ.' },
+      { name: 'Manrope', note: 'Мягкий и округлый, дружелюбнее остальных. Чуть менее «дорогой».' },
+      { name: 'Geologica', note: 'Строгий, с характером в отдельных буквах. Современный.' },
+      { name: 'Commissioner', note: 'Спокойный, слегка гуманистический — теплее Inter.' },
+    ];
+    const LOGO = [
+      { name: 'Libre Caslon Text', w: 700, note: 'Сейчас в вайрфрейме. Классика, ближе всего к их логотипу.' },
+      { name: 'EB Garamond', w: 600, note: 'Мягче и изящнее, «книжный».' },
+      { name: 'Cormorant Garamond', w: 600, note: 'Самый утончённый, высокий контраст — очень «премиально».' },
+      { name: 'Newsreader', w: 500, note: 'Современная классика, спокойный и чёткий.' },
+      { name: 'Fraunces', w: 500, note: 'С характером, чуть «мягкий» и тёплый — дружелюбнее остальных.' },
+      { name: 'Instrument Serif', w: 400, note: 'Узкий и модный, сейчас популярен у fashion-брендов.' },
+    ];
+    const f = n => `'${n}', system-ui, sans-serif`;
+
+    const sample = (sans, logo) => `
+      <div style="font-family:${f(sans)}">
+        <div class="bg-brown text-white text-center text-[12px] uppercase tracking-[0.01em] py-2 underline underline-offset-2">−10% на первый заказ за подписку</div>
+        <div class="flex items-center gap-6 px-6 py-3 border-b border-neutral-200">
+          <div class="flex-1 hidden md:flex gap-6 text-[13px] uppercase tracking-[0.01em]"><span>Магазин</span><span>Клетки</span><span>Жёрдочки</span><span>Кормушки и поилки</span></div>
+          <div style="font-family:'${logo.name}',serif;font-weight:${logo.w}" class="text-[31px] leading-none tracking-tight">askthebirds</div>
+          <div class="flex-1 flex justify-end gap-6 text-[13px] uppercase tracking-[0.01em]"><span class="hidden md:inline">Подход</span><span>Корзина</span></div>
+        </div>
+        <div class="px-6 pt-8 pb-6 flex items-center justify-between">
+          <h3 class="text-[18px] font-medium uppercase leading-[1.1]">Категории</h3>
+          <span class="border border-black px-10 py-2 text-[12px] uppercase">Смотреть все</span>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-4 px-6">
+          ${['Клетки','Жёрдочки','Кормушки и поилки','Игрушки'].map(t=>`<div class="bg-ph aspect-[346/300] flex items-end justify-center pb-6 border border-white"><span class="text-white text-[16px] md:text-[18px] font-medium uppercase [text-shadow:0_0_12px_rgba(0,0,0,.25)]">${t}</span></div>`).join('')}
+        </div>
+        <div class="grid md:grid-cols-2 gap-8 px-6 py-8">
+          <div>
+            <div class="text-[12px] uppercase mb-1">Клетка «Простор»</div>
+            <div class="text-[22px] font-medium uppercase leading-[1.1] mb-3">Натуральное дерево</div>
+            <p class="text-[14px] leading-[1.5] text-neutral-700">Жёрдочки из необработанной ивы и берёзы разного диаметра — лапы попугая работают, как в природе. Никакого лака, клея и пластика.</p>
+          </div>
+          <div class="bg-brown text-white p-6">
+            <div class="caps mb-4">Заказы и помощь</div>
+            <div class="flex flex-col gap-[10px] text-[14px]"><span>Вопросы и ответы</span><span>Доставка СДЭК</span><span>Возврат</span></div>
+          </div>
+        </div>
+      </div>`;
+
+    // 1. пара
+    const ps = document.getElementById('pick-sans'), pl = document.getElementById('pick-logo');
+    SANS.forEach(s => ps.add(new Option(s.name, s.name)));
+    LOGO.forEach(l => pl.add(new Option(l.name, l.name)));
+    const drawPair = () => { document.getElementById('pair').innerHTML = sample(ps.value, LOGO.find(l => l.name === pl.value)); };
+    ps.onchange = pl.onchange = drawPair; drawPair();
+
+    // 2. основной шрифт — карточки
+    document.getElementById('sans-list').innerHTML = SANS.map(s => `
+      <div class="border border-neutral-200 p-5" style="font-family:${f(s.name)}">
+        <div class="flex items-baseline justify-between mb-1"><div class="text-[18px] font-medium">${s.name}</div><div class="text-[11px] uppercase text-neutral-400 js-cyr" data-font="${s.name}"></div></div>
+        <p class="text-[13px] text-neutral-500 mb-5" style="font-family:'Golos Text'">${s.note}</p>
+        <div class="flex flex-wrap gap-x-5 gap-y-1 text-[13px] uppercase tracking-[0.01em] mb-5"><span>Магазин</span><span>Клетки</span><span>Жёрдочки</span><span>Подход</span><span>Корзина</span></div>
+        <div class="text-[18px] font-medium uppercase leading-[1.1] mb-3">Кормушки и поилки</div>
+        <p class="text-[14px] leading-[1.5] mb-4">Съёмная поилка из стекла и керамики: легко мыть, не царапается, не выделяет ничего вредного. Подходит волнистым попугаям, кореллам и неразлучникам.</p>
+        <div class="text-[28px] font-medium leading-none mb-4">4 990 ₽ · №12 · 50×30 см</div>
+        <span class="inline-block border border-black px-10 py-2 text-[12px] uppercase">В корзину</span>
+      </div>`).join('');
+
+    // 4. логотип — строки
+    document.getElementById('logo-list').innerHTML = LOGO.map(l => `
+      <div class="border border-neutral-200 grid md:grid-cols-[240px_minmax(0,1fr)_minmax(0,1fr)] items-stretch overflow-hidden">
+        <div class="p-5"><div class="text-[16px] font-medium mb-1">${l.name}</div><p class="text-[13px] text-neutral-500">${l.note}</p></div>
+        <div class="p-5 flex flex-col justify-center gap-4 border-t md:border-t-0 md:border-l border-neutral-200" style="font-family:'${l.name}',serif;font-weight:${l.w}">
+          <div class="text-[31px] leading-none tracking-tight">askthebirds</div>
+          <div class="text-[clamp(40px,6vw,80px)] leading-none tracking-tight text-neutral-400">askthebirds</div>
+        </div>
+        <div class="bg-brown text-white p-5 flex items-center justify-center" style="font-family:'${l.name}',serif;font-weight:${l.w}">
+          <div class="text-[clamp(30px,3.6vw,44px)] leading-none tracking-tight">askthebirds</div>
+        </div>
+      </div>`).join('');
+
+    // проверка кириллицы: шрифт действительно загрузился и покрывает русские буквы
+    document.fonts.ready.then(async () => {
+      for (const el of document.querySelectorAll('.js-cyr')) {
+        await document.fonts.load(`16px '${el.dataset.font}'`, 'Жёрдочки');
+        el.textContent = document.fonts.check(`16px '${el.dataset.font}'`, 'Жёрдочки') ? 'кириллица ✓' : 'нет кириллицы';
+      }
+    });
+  </script>
+</body>
+</html>

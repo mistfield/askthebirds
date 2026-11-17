@@ -6,18 +6,19 @@
   <title>askthebirds — вайрфрейм: аккаунт</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- Golos Text — бесплатная замена их Founders Grotesk (у того нет кириллицы и он платный).
-       Libre Caslon — временно для логотипа. -->
-  <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500&family=Libre+Caslon+Text:wght@400;700&display=swap" rel="stylesheet">
+  <!-- Inter — один шрифт на весь сайт, включая логотип. Их Founders Grotesk без кириллицы,
+       Inter из бесплатных ближе всех к нему по ширине букв. -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.1.5"></script>
   <style type="text/tailwindcss">
+    /* Inter крупнее Founders Grotesk при том же кегле — выравниваем по высоте заглавных (у них 0.63) */
+    html { font-size-adjust: cap-height 0.63; }
     @theme {
       --color-brown: #696159;       /* плашка и подвал, как у них */
       --color-ph: #e7e5e2;          /* заглушка под фото */
       --color-ph-dark: #b9b4ae;     /* заглушка под видео (на ней белый текст) */
       --color-ph-text: #8f8983;
-      --font-sans: "Golos Text", system-ui, sans-serif;
-      --font-logo: "Libre Caslon Text", Georgia, serif;
+      --font-sans: "Inter", system-ui, sans-serif;
     }
     .ph { @apply bg-ph text-ph-text flex items-center justify-center text-center text-[11px] uppercase tracking-[0.04em]; }
     /* меню: 13px, верхний регистр, разрядка 1% */
@@ -80,7 +81,7 @@
     <div class="lg:hidden flex-1"><button id="mobile-open" class="nav">Меню</button></div>
 
     <!-- Центр: логотип 160×29, виден только когда шапка белая -->
-    <a href="#" class="logo font-logo text-[23.5px] lg:text-[31px] leading-none tracking-tight whitespace-nowrap">askthebirds</a>
+    <a href="#" class="logo block shrink-0 w-[92px] lg:w-[122px]"><img src="logo.svg" alt="askthebirds" class="block w-full h-auto"></a>
 
     <!-- Справа: текстом -->
     <nav class="flex items-center justify-end gap-6 flex-1 min-w-0">
@@ -292,8 +293,8 @@
       <div class="lg:w-[445px]">
         <h2 class="caps mb-[9px]">Подписка</h2>
         <p class="text-[14px] md:text-[16px] font-medium uppercase leading-[1.2] mb-10 max-w-[200px] lg:max-w-none">Подпишитесь на рассылку, чтобы быть в курсе.</p>
-        <form class="flex items-center border-b border-white h-[41px]" onsubmit="return false">
-          <input type="email" placeholder="Email" class="bg-transparent flex-1 text-[14px] placeholder:text-white/80 outline-none">
+        <form class="flex items-center border-b border-white h-[44px] lg:h-[41px]" onsubmit="return false">
+          <input type="email" placeholder="Email" class="bg-transparent flex-1 text-[16px] lg:text-[14px] placeholder:text-white/80 outline-none">
           <button aria-label="Подписаться" class="px-1">
             <svg width="14" height="10" viewBox="0 0 14 10" fill="none" stroke="currentColor"><path d="M0 5h13M9 1l4 4-4 4"/></svg>
           </button>

@@ -21,10 +21,14 @@
 
 За основу берём структуру [natureofthings.com](https://natureofthings.com) один в один, свои дополнения — позже.
 
+## Дизайн
+
+- **Шрифт:** [Inter](https://fonts.google.com/specimen/Inter) — один на весь сайт, включая логотип (бесплатный, с кириллицей). Их Founders Grotesk не подходит: в нём нет кириллицы. Сравнение вариантов: [design/fonts.html](design/fonts.html).
+- **Логотип:** «askthebirds» строчными, Inter 500, разрядка −3%, ширина 160 px в шапке (121 px на узких экранах).
+
 ## Сейчас
 
 - [x] Название и домены (askthebirds.ru, askthebirds.com)
-- [x] Вайрфрейм главной — [wireframe/index.html](wireframe/index.html)
-- [ ] Вайрфреймы каталога и карточки товара
-- [ ] Визуальный дизайн
+- [x] Вайрфреймы всех страниц — [wireframe/](wireframe/)
+- [ ] Визуальный дизайн: ~~шрифт~~ ✓, цвета, логотип, стиль фото
 - [ ] Разработка
